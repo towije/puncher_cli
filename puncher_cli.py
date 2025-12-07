@@ -42,35 +42,41 @@ MIN_HEIGHT = 20  # opcjonalnie, ale zwykle warto
 
 # ---------- Pomocnicze: bezpieczne rysowanie ----------
 
-def ensure_min_terminal_size(stdscr, min_w=MIN_WIDTH, min_h=MIN_HEIGHT):
-    """
-    Blokuje program, dopóki terminal nie będzie miał co najmniej min_w x min_h.
-    NIE używa safe_addstr ani żadnych funkcji, które mogą same wywołać ten check.
-    """
-    while True:
-        h, w = stdscr.getmaxyx()
-        if w >= min_w and h >= min_h:
-            return  # OK, wychodzimy
+def terminal_too_small(stdscr, min_w=MIN_WIDTH, min_h=MIN_HEIGHT) -> bool:
+    h, w = stdscr.getmaxyx()
+    return w < min_w or h < min_h
 
-        stdscr.clear()
 
-        msg1 = "!!! TERMINAL WINDOW TOO SMALL !!!"
-        msg2 = f"Minimal size: {min_w} x {min_h}"
-        msg3 = f"Current size: {w} x {h}"
-        msg4 = "Please enlarge the terminal window to continue."
+def draw_too_small_dialog(stdscr, min_w=MIN_WIDTH, min_h=MIN_HEIGHT):
+    import curses
+    stdscr.erase()
+    h, w = stdscr.getmaxyx()
 
-        lines = [msg1, msg2, msg3, "", msg4]
+    lines = [
+        "TERMINAL WINDOW TOO SMALL",
+        f"Required minimum size: {min_w} x {min_h}",
+        f"Current size: {w} x {h}",
+        "",
+        "Please enlarge the terminal window to continue.",
+        "Press any key after resizing.",
+    ]
 
-        # Środkowanie na ekranie (bezpieczne, bez wychodzenia poza granice)
-        for i, text in enumerate(lines):
-            y = h // 2 - len(lines) // 2 + i
-            if 0 <= y < h:
-                x = max(0, (w - len(text)) // 2)
-                # Przytnij tekst do szerokości
-                stdscr.addstr(y, x, text[: max(0, w - x - 1)])
+    total = len(lines)
+    max_len = max(len(x) for x in lines)
+    start_y = max(0, h // 2 - total // 2)
+    start_x = max(0, (w - max_len) // 2)
 
-        stdscr.refresh()
-        curses.napms(200)  # chwila na przerysowanie, zanim znów sprawdzimy rozmiar
+    for i, line in enumerate(lines):
+        y = start_y + i
+        if 0 <= y < h:
+            text = line[: max(0, w - start_x)]
+            try:
+                stdscr.addstr(y, start_x, text)
+                stdscr.chgat(y, start_x, len(text))
+            except curses.error:
+                pass
+
+    stdscr.refresh()
 
 
 def safe_addstr(stdscr, y: int, x: int, text: str):
@@ -570,10 +576,8 @@ def draw_page(
     stdscr.erase()
     h, w = stdscr.getmaxyx()
     page_width = max(60, w)
-    content_start_y = 2
+    content_start_y = 1
     content_end_y = h - 2
-
-    ensure_min_terminal_size(stdscr)
 
     draw_header(stdscr, current_page, total_pages, interview_no)
 
@@ -626,8 +630,6 @@ def edit_page(stdscr):
     curses.curs_set(1)
     stdscr.keypad(True)
 
-    ensure_min_terminal_size(stdscr)  # pierwszy check
-
     items = parse_dictionary(DICT_PATH)
     pages_items = split_pages(items)
     total_pages = len(pages_items)
@@ -637,7 +639,6 @@ def edit_page(stdscr):
     while True:  # pętla kolejnych ankiet
         answers: Dict[str, str] = {}
         current_page_idx = 0
-        ensure_min_terminal_size(stdscr)
 
         h, w = stdscr.getmaxyx()
         fields, hr_rows = build_fields_from_page(pages_items[current_page_idx], w, answers)
@@ -669,8 +670,13 @@ def edit_page(stdscr):
         cursor_pos = 0
 
         while True:  # pętla w obrębie jednej ankiety
+            if terminal_too_small(stdscr):
+                draw_too_small_dialog(stdscr)
+                stdscr.getch()  # czekamy aż user powiększy okno i wciśnie cokolwiek
+                continue
+
             h, w = stdscr.getmaxyx()
-            content_start_y = 2
+            content_start_y = 1
             content_end_y = h - 2
             content_height = max(1, content_end_y - content_start_y + 1)
 
@@ -733,6 +739,31 @@ def edit_page(stdscr):
 
             stdscr.refresh()
             ch = stdscr.getch()
+
+            # zmiana rozmiaru terminala
+            if ch == curses.KEY_RESIZE:
+                # przebuduj layout pól dla aktualnej strony z uwzględnieniem nowej szerokości
+                h, w = stdscr.getmaxyx()
+                fields, hr_rows = build_fields_from_page(
+                    pages_items[current_page_idx], w, answers
+                )
+                recompute_field_actives(fields, answers)
+
+                # opcja minimum: wróć na pierwsze aktywne pole na stronie
+                current_index = 0
+                if fields and not fields[0].active:
+                    # znajdź pierwszy aktywny
+                    i = 0
+                    while i < len(fields) and not fields[i].active:
+                        i += 1
+                    if i < len(fields):
+                        current_index = i
+
+                scroll_offset = 0
+                cursor_pos = 0
+                stdscr.erase()
+                stdscr.refresh()
+                continue
 
             # WYJŚCIE: Ctrl+D (ASCII 4) + potwierdzenie
             if ch == 4:  # Ctrl+D

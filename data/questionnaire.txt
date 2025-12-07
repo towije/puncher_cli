@@ -1,3 +1,9 @@
+[P0]
+text=25
+varlab=test
+
+hr
+
 [P1]
 varlab=Including yourself, how many people live in your household?
 accept=1:20
@@ -32,7 +38,7 @@ accept=0:10
 page
 
 [P10]
-varlab=Which of the following best describes your current main activity?\n1 Employed full-time, 2 Employed part-time, 3 Self-employed, 4 Unemployed, 5 Student, 6 Retired, 7 Other
+varlab=Which of the following best describes your current main activity? (1 Employed full-time, 2 Employed part-time, 3 Self-employed, 4 Unemployed, 5 Student, 6 Retired, 7 Other)
 accept=1:7
 
 [P11]
