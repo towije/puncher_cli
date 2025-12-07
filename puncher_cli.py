@@ -6,6 +6,7 @@ from typing import List, Optional, Set, Dict
 from pathlib import Path
 import sys
 
+
 def get_app_dir() -> Path:
     if getattr(sys, "frozen", False):
         # Wersja skompilowana — zapisujemy DANE OBOK aplikacji (.exe / binarki)
@@ -13,6 +14,7 @@ def get_app_dir() -> Path:
     else:
         # Wersja pythonowa — katalog źródłowy
         return Path(__file__).resolve().parent
+
 
 APP_DIR = get_app_dir()
 DATA_DIR = APP_DIR / "data"
@@ -35,46 +37,45 @@ TEXT_PLACEHOLDER_CHAR = "_"  # zamiast '▫'
 NUM_PLACEHOLDER_CHAR = "_"
 
 MIN_WIDTH = 80
-MIN_HEIGHT = 20   # opcjonalnie, ale zwykle warto
+MIN_HEIGHT = 20  # opcjonalnie, ale zwykle warto
 
 
 # ---------- Pomocnicze: bezpieczne rysowanie ----------
 
-def ensure_min_terminal_size(stdscr, min_w=80, min_h=20):
+def ensure_min_terminal_size(stdscr, min_w=MIN_WIDTH, min_h=MIN_HEIGHT):
     """
-    Jeśli terminal jest zbyt mały, pokazuje komunikat ostrzegawczy
-    i zatrzymuje działanie, dopóki użytkownik nie powiększy okna.
+    Blokuje program, dopóki terminal nie będzie miał co najmniej min_w x min_h.
+    NIE używa safe_addstr ani żadnych funkcji, które mogą same wywołać ten check.
     """
     while True:
         h, w = stdscr.getmaxyx()
         if w >= min_w and h >= min_h:
-            return  # OK – można kontynuować
+            return  # OK, wychodzimy
 
-        stdscr.erase()
-        msg1 = f"!!! ZBYT MAŁE OKNO TERMINALA !!!"
-        msg2 = f"Minimalny rozmiar: {min_w}×{min_h}"
-        msg3 = f"Aktualny rozmiar:  {w}×{h}"
-        msg4 = f"Powiększ okno terminala, aby kontynuować."
+        stdscr.clear()
 
-        # oblicz pozycję centralną
-        center_y = h // 2 - 2
-        center_x = max(0, (w - len(msg2)) // 2)
+        msg1 = "!!! TERMINAL WINDOW TOO SMALL !!!"
+        msg2 = f"Minimal size: {min_w} x {min_h}"
+        msg3 = f"Current size: {w} x {h}"
+        msg4 = "Please enlarge the terminal window to continue."
 
-        safe_addstr(stdscr, center_y + 0, center_x, msg1)
-        safe_addstr(stdscr, center_y + 1, center_x, msg2)
-        safe_addstr(stdscr, center_y + 2, center_x, msg3)
-        safe_addstr(stdscr, center_y + 4, center_x, msg4)
+        lines = [msg1, msg2, msg3, "", msg4]
+
+        # Środkowanie na ekranie (bezpieczne, bez wychodzenia poza granice)
+        for i, text in enumerate(lines):
+            y = h // 2 - len(lines) // 2 + i
+            if 0 <= y < h:
+                x = max(0, (w - len(text)) // 2)
+                # Przytnij tekst do szerokości
+                stdscr.addstr(y, x, text[: max(0, w - x - 1)])
 
         stdscr.refresh()
-
-        # Poczekaj chwilę, aby terminal zdążył przeliczyć rozmiar
-        curses.napms(300)
+        curses.napms(200)  # chwila na przerysowanie, zanim znów sprawdzimy rozmiar
 
 
 def safe_addstr(stdscr, y: int, x: int, text: str):
     if not text:
         return
-    ensure_min_terminal_size(stdscr, MIN_WIDTH, MIN_HEIGHT)
     h, w = stdscr.getmaxyx()
     if y < 0 or y >= h or x < 0 or x >= w:
         return
@@ -85,7 +86,6 @@ def safe_addstr(stdscr, y: int, x: int, text: str):
 
 
 def safe_chgat(stdscr, y: int, x: int, length: int, attr):
-    ensure_min_terminal_size(stdscr, MIN_WIDTH, MIN_HEIGHT)
     h, w = stdscr.getmaxyx()
     if y < 0 or y >= h or x < 0 or x >= w or length <= 0:
         return
@@ -100,7 +100,6 @@ def confirm_exit(stdscr) -> bool:
     Wyświetla wycentrowane okno dialogowe z ramką ASCII w trybie reverse.
     Zwraca True jeśli użytkownik wybierze 't|y', False przy 'n' lub ESC.
     """
-    ensure_min_terminal_size(stdscr, MIN_WIDTH, MIN_HEIGHT)
     h, w = stdscr.getmaxyx()
 
     # Treść okna
@@ -141,6 +140,7 @@ def confirm_exit(stdscr) -> bool:
             return False
         if ch == 27:  # ESC
             return False
+
 
 def error_beep():
     curses.beep()
@@ -525,11 +525,10 @@ def save_answers_to_csv(answers: Dict[str, str], items: List[DictItem], path: st
 # ---------- Rysowanie ----------
 
 def draw_header(stdscr, current_page: int, total_pages: int, interview_no: int):
-    ensure_min_terminal_size(stdscr, MIN_WIDTH, MIN_HEIGHT)
     h, w = stdscr.getmaxyx()
 
     # Tekst nagłówka
-    left  = f"| WYWIAD {interview_no} |"
+    left = f"| WYWIAD {interview_no} |"
     right = f"| STRONA {current_page}/{total_pages} |"
 
     # Zbudowanie pełnej linii
@@ -544,8 +543,8 @@ def draw_header(stdscr, current_page: int, total_pages: int, interview_no: int):
     safe_addstr(stdscr, 0, 0, header_line)
     safe_chgat(stdscr, 0, 0, w - 1, curses.A_REVERSE)
 
+
 def draw_footer(stdscr):
-    ensure_min_terminal_size(stdscr, MIN_WIDTH, MIN_HEIGHT)
     h, w = stdscr.getmaxyx()
     y = h - 1
     footer = "| ↑/↓: góra/dół | ENTER: dalej | -: brak danych | ctrl+d: wyjście |"
@@ -569,11 +568,12 @@ def draw_page(
         interview_no: int,
 ):
     stdscr.erase()
-    ensure_min_terminal_size(stdscr, MIN_WIDTH, MIN_HEIGHT)
     h, w = stdscr.getmaxyx()
     page_width = max(60, w)
     content_start_y = 2
     content_end_y = h - 2
+
+    ensure_min_terminal_size(stdscr)
 
     draw_header(stdscr, current_page, total_pages, interview_no)
 
@@ -626,7 +626,7 @@ def edit_page(stdscr):
     curses.curs_set(1)
     stdscr.keypad(True)
 
-    ensure_min_terminal_size(stdscr, MIN_WIDTH, MIN_HEIGHT)
+    ensure_min_terminal_size(stdscr)  # pierwszy check
 
     items = parse_dictionary(DICT_PATH)
     pages_items = split_pages(items)
@@ -637,7 +637,7 @@ def edit_page(stdscr):
     while True:  # pętla kolejnych ankiet
         answers: Dict[str, str] = {}
         current_page_idx = 0
-        ensure_min_terminal_size(stdscr, MIN_WIDTH, MIN_HEIGHT)
+        ensure_min_terminal_size(stdscr)
 
         h, w = stdscr.getmaxyx()
         fields, hr_rows = build_fields_from_page(pages_items[current_page_idx], w, answers)
