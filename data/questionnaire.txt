@@ -1,151 +1,124 @@
-[qID]
-text=20
-varlab=Unikatowy identyfikator pojedynczej ankiety:
+[P1]
+varlab=Including yourself, how many people live in your household?
+accept=1:20
 
-[date]
-accept=1:31
-varlab=Day of the interview (2026-01-XX)
+[P2]
+varlab=How old are you?
+accept=15:99
 
-page
+[P3]
+varlab=What is your gender? (1 Male, 2 Female, 3 Other)
+accept=1:3
 
-[p1]
-accept=1:5
-varlab=Rodzina
+[P4]
+varlab=In which country were you born?
+text=50
 
-[p2]
-accept=1:5
-varlab=Przyjaciele i znajomi
-if=p1=1
-
-[p3]
-accept=1:5
-varlab=Czas wolny
-if=p1=2
-
-[p4]
-accept=1:5
-varlab=Polityka
-if=p1=1 & p2=2
-
-[p5]
-accept=1:5
-varlab=Praca
-
-[p6]
-accept=1:5
-varlab=Religia
+[P5]
+varlab=If you selected 'Other' for gender, please describe.
+text=100
+if=P3=3
 
 hr
+
+[P6]
+varlab=Do you currently live in an urban or rural area? (1 Urban, 2 Rural)
+accept=1:2
 
 [P7]
-accept=0:1234
-varlab=Dobre maniery
-
-[P8]
-accept=0:1
-varlab=Niezależność
-
-[P9]
-accept=0:1
-varlab=Ciężka praca
-
-[P10]
-accept=0:1
-varlab=Poczucie odpowiedzialności
-
-[P11]
-accept=0:1
-varlab=Wyobraźnia
-
-[P12]
-accept=0:1
-varlab=Tolerancja i szacunek dla innych
-
-[P13]
-accept=0:1
-varlab=Oszczędność pieniędzy i rzeczy
-
-[P14]
-accept=0:1
-varlab=Zdecydowanie
-
-[P15]
-accept=0:1
-varlab=Religijność
-
-[P16]
-accept=0:1
-varlab=Bezinteresowność
-
-[P17]
-accept=0:1
-varlab=Posłuszeństwo
+varlab=How many children under 18 live in your household?
+accept=0:10
 
 page
 
-[P18]
-accept=0:1
-varlab=ludzie odmiennej rasy
+[P10]
+varlab=Which of the following best describes your current main activity?
+; 1 Employed full-time, 2 Employed part-time, 3 Self-employed, 4 Unemployed, 5 Student, 6 Retired, 7 Other
+accept=1:7
 
-[A01]
-accept=0:1
-varlab=narkomani
+[P11]
+varlab=If you are employed or self-employed, how many hours per week do you usually work in your main job?
+accept=1:80
+if=P10=1 | P10=2 | P10=3
 
-[P19]
-accept=0:1
-varlab=imigranci, zagraniczni robotnicy
+[P12]
+varlab=Are you working mainly full-time or part-time? (1 Full-time, 2 Part-time)
+accept=1:2
+if=P10=1 | P10=2 | P10=3
 
-[A10]
-accept=0:1
-varlab=osoby z kryminalną przeszłością
+[P13]
+varlab=Below is an income scale where 1 means the lowest income group in your country and 10 the highest. Which group best describes your household income?
+accept=1:10
 
-[P20]
-accept=0:1
-varlab=homoseksualiści
-
-[A11]
-accept=0:1
-varlab=ludzie o skrajnie lewicowych poglądach
-
-[P21]
-accept=0:1
-varlab=osoby innego wyznania
-
-[A12]
-accept=0:1
-varlab=ludzie o skrajnie prawicowych poglądach
-
-[P22]
-accept=0:1
-varlab=ludzie mówiący innym językiem
-
-[A13]
-accept=0:1
-varlab=rodziny wielodzietne
-
-[A07]
-accept=0:1
-varlab=alkoholicy
-
-[A14]
-accept=0:1
-varlab=muzułmanie
+[P13i]
+varlab=If you feel none of the groups fit well, please describe your household's main income sources.
+text=255
+if=P13=10
 
 hr
 
-[A08]
-text=10
-varlab=pary żyjące bez ślubu
+[P14]
+varlab=How satisfied are you with your financial situation? (1 Very dissatisfied ... 5 Very satisfied)
+accept=1:5
 
-[A15]
-text=10
-varlab=Żydzi
+[P15]
+varlab=In which sector do you mainly work? (1 Public, 2 Private, 3 NGO, 4 Other)
+accept=1:4
+if=P10=1 | P10=2 | P10=3
 
-[A03]
-text=10
-varlab=ludzie chorzy na AIDS
+[P16]
+varlab=If 'Other sector', please specify.
+text=100
+if=P15=4
 
-[A16]
-text=10
-varlab=Cyganie
+page
 
+[P20]
+varlab=How interested are you in politics? (0 Not at all ... 10 Very interested)
+accept=0:10
+
+[P21]
+varlab=Is there a political party you feel particularly close to? (1 Party A, 2 Party B, 3 Party C, 4 Party D, 5 Party E, 6 Party F, 7 None, 8 Other)
+accept=1:8
+
+[P21i]
+varlab=If 'Other party', which one?
+text=100
+if=P21=8
+
+[P22]
+varlab=Did you vote in the last national election? (1 Yes, 2 No, 3 Not eligible)
+accept=1:3
+
+[P23]
+varlab=If yes, which party did you vote for in the last national election? (1 Party A, 2 Party B, 3 Party C, 4 Party D, 5 Party E, 6 Party F, 7 Other, 8 Prefer not to say)
+accept=1:8
+if=P22=1
+
+[P23i]
+varlab=If 'Other party', which one?
+text=100
+if=P22=1 & P23=7
+
+hr
+
+[P30]
+varlab=To what extent do you agree: "Most people can be trusted." (1 Strongly disagree ... 5 Strongly agree)
+accept=1:5
+
+[P31]
+varlab=To what extent do you agree: "The government can be trusted to do what is right." (1 Strongly disagree ... 5 Strongly agree)
+accept=1:5
+
+[P32]
+varlab=To what extent do you agree: "I feel safe walking alone at night in my neighbourhood." (1 Strongly disagree ... 5 Strongly agree)
+accept=1:5
+
+[P33]
+varlab=Please briefly describe any major concerns you currently have about your country.
+text=255
+
+[P34]
+varlab=This final question is shown only if you did not vote but are eligible to vote. Please tell us briefly why you did not vote.
+text=255
+if=P22=2 & P21!=7

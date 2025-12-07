@@ -49,7 +49,7 @@ puncher-cli/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/<user>/puncher-cli.git
+git clone https://github.com/towije/puncher-cli.git
 cd puncher-cli
 ```
 

@@ -22,12 +22,12 @@ DICT_PATH = DATA_DIR / "questionnaire.txt"
 CSV_PATH = DATA_DIR / "responses.csv"
 
 # Motyw ASCII – bez znaków Unicode
-BOX_TL = ":"
-BOX_TR = ":"
-BOX_BL = ":"
-BOX_BR = ":"
-BOX_H = "="  # pozioma kreska
-BOX_V = "|"  # pionowa kreska
+BOX_TL = "╔"
+BOX_TR = "╗"
+BOX_BL = "╚"
+BOX_BR = "╝"
+BOX_H = "═"  # pozioma kreska
+BOX_V = "║"  # pionowa kreska
 
 HR_CHAR = "="  # separator sekcji (hr)
 
@@ -141,6 +141,10 @@ def confirm_exit(stdscr) -> bool:
             return False
         if ch == 27:  # ESC
             return False
+
+def error_beep():
+    curses.beep()
+    curses.flash()
 
 
 # ---------- Słownik: struktura i parser ----------
@@ -544,7 +548,7 @@ def draw_footer(stdscr):
     ensure_min_terminal_size(stdscr, MIN_WIDTH, MIN_HEIGHT)
     h, w = stdscr.getmaxyx()
     y = h - 1
-    footer = " ↑/↓: góra/dół  ENTER: dalej  -: brak danych  ctrl+q: wyjście "
+    footer = "| ↑/↓: góra/dół | ENTER: dalej | -: brak danych | ctrl+d: wyjście |"
 
     # Najpierw wypisz tekst (ucięty, jeśli terminal za wąski)
     safe_addstr(stdscr, y, 0, footer)
@@ -782,7 +786,7 @@ def edit_page(stdscr):
                 if current.ftype == "numeric" and not is_numeric_value_valid(
                         current, current.value
                 ):
-                    curses.beep()
+                    error_beep()
                     continue
 
                 answers[current.name] = current.value
@@ -855,7 +859,7 @@ def edit_page(stdscr):
                     current, s, current_value=current.value
                 )
                 if not ok:
-                    curses.beep()
+                    error_beep()
                     continue
 
                 current.value = new_val
