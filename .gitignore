@@ -1,0 +1,37 @@
+# Wirtualne środowiska
+.venv/
+venv/
+env/
+
+# backup
+back/
+
+# Pliki Pythona
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+
+# Pliki tymczasowe edytorów
+*.swp
+*.swo
+*.tmp
+*.bak
+*~
+.vscode/
+.idea/
+
+# Pliki z logami
+*.log
+
+# Pliki generowane przez program
+data/responses.csv
+
+# PyInstaller / build
+build/
+dist/
+*.spec
+
+# MacOS śmieci
+.DS_Store

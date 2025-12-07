@@ -1,0 +1,2 @@
+# Curses dla Windows (na macOS/Linux nie jest instalowane)
+windows-curses==2.3.3 ; platform_system == "Windows"

@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "puncher-cli"
+version = "0.1.0"
+description = "CLI do wprowadzania danych z ankiet (styl CSPro)"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["windows-curses; platform_system == 'Windows'"]
+
+[project.urls]
+Homepage = "https://example.org/puncher-cli"
+
+[project.scripts]
+puncher-cli = "puncher_cli.cli:main"

@@ -1,0 +1,151 @@
+[qID]
+text=20
+varlab=Unikatowy identyfikator pojedynczej ankiety:
+
+[date]
+accept=1:31
+varlab=Day of the interview (2026-01-XX)
+
+page
+
+[p1]
+accept=1:5
+varlab=Rodzina
+
+[p2]
+accept=1:5
+varlab=Przyjaciele i znajomi
+if=p1=1
+
+[p3]
+accept=1:5
+varlab=Czas wolny
+if=p1=2
+
+[p4]
+accept=1:5
+varlab=Polityka
+if=p1=1 & p2=2
+
+[p5]
+accept=1:5
+varlab=Praca
+
+[p6]
+accept=1:5
+varlab=Religia
+
+hr
+
+[P7]
+accept=0:1234
+varlab=Dobre maniery
+
+[P8]
+accept=0:1
+varlab=Niezależność
+
+[P9]
+accept=0:1
+varlab=Ciężka praca
+
+[P10]
+accept=0:1
+varlab=Poczucie odpowiedzialności
+
+[P11]
+accept=0:1
+varlab=Wyobraźnia
+
+[P12]
+accept=0:1
+varlab=Tolerancja i szacunek dla innych
+
+[P13]
+accept=0:1
+varlab=Oszczędność pieniędzy i rzeczy
+
+[P14]
+accept=0:1
+varlab=Zdecydowanie
+
+[P15]
+accept=0:1
+varlab=Religijność
+
+[P16]
+accept=0:1
+varlab=Bezinteresowność
+
+[P17]
+accept=0:1
+varlab=Posłuszeństwo
+
+page
+
+[P18]
+accept=0:1
+varlab=ludzie odmiennej rasy
+
+[A01]
+accept=0:1
+varlab=narkomani
+
+[P19]
+accept=0:1
+varlab=imigranci, zagraniczni robotnicy
+
+[A10]
+accept=0:1
+varlab=osoby z kryminalną przeszłością
+
+[P20]
+accept=0:1
+varlab=homoseksualiści
+
+[A11]
+accept=0:1
+varlab=ludzie o skrajnie lewicowych poglądach
+
+[P21]
+accept=0:1
+varlab=osoby innego wyznania
+
+[A12]
+accept=0:1
+varlab=ludzie o skrajnie prawicowych poglądach
+
+[P22]
+accept=0:1
+varlab=ludzie mówiący innym językiem
+
+[A13]
+accept=0:1
+varlab=rodziny wielodzietne
+
+[A07]
+accept=0:1
+varlab=alkoholicy
+
+[A14]
+accept=0:1
+varlab=muzułmanie
+
+hr
+
+[A08]
+text=10
+varlab=pary żyjące bez ślubu
+
+[A15]
+text=10
+varlab=Żydzi
+
+[A03]
+text=10
+varlab=ludzie chorzy na AIDS
+
+[A16]
+text=10
+varlab=Cyganie
+
