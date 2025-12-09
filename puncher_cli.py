@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from typing import List, Optional, Set, Dict
 from pathlib import Path
 import sys
+from build_date import VER
 
 
 def get_app_dir() -> Path:
@@ -36,7 +37,7 @@ BOX_V = "║"  # pionowa kreska
 
 HR_CHAR = "="  # separator sekcji (hr)
 
-TEXT_PLACEHOLDER_CHAR = "_"  # zamiast '▫'
+TEXT_PLACEHOLDER_CHAR = "_"
 NUM_PLACEHOLDER_CHAR = "_"
 
 MIN_WIDTH = 80
@@ -46,6 +47,7 @@ CONTENT_START_Y = 1  # Treść zaczyna się w wierszu 1, pod jednoliniowym heade
 
 
 # ---------- Pomocnicze ----------
+
 
 def load_used_ids(csv_path: Path, id_var: str) -> set[str]:
     """
@@ -72,6 +74,7 @@ def warn_duplicate_id(stdscr, value: str):
     Wyświetla krótkie ostrzeżenie, że ID już istnieje.
     """
     import curses
+
     h, w = stdscr.getmaxyx()
 
     msg2 = f" To ID '{value}' jest już użyte w bazie danych. "
@@ -79,7 +82,7 @@ def warn_duplicate_id(stdscr, value: str):
     msg11 = " DUPLIKAT ID ! "
     msg1 = msg11 + " " * (len(msg2) - len(msg11))
     msg33 = " Proszę użyć innego identyfikatora. "
-    msg3 = msg33  + " " * (len(msg2) - len(msg33))
+    msg3 = msg33 + " " * (len(msg2) - len(msg33))
 
     lines = [spcr, msg1, spcr, msg2, msg3, spcr]
     max_len = max(len(x) for x in lines)
@@ -107,6 +110,7 @@ def terminal_too_small(stdscr, min_w=MIN_WIDTH, min_h=MIN_HEIGHT) -> bool:
 
 def draw_too_small_dialog(stdscr, min_w=MIN_WIDTH, min_h=MIN_HEIGHT):
     import curses
+
     stdscr.erase()
     h, w = stdscr.getmaxyx()
 
@@ -213,6 +217,7 @@ def error_beep():
 
 # ---------- Słownik: struktura i parser ----------
 
+
 @dataclass
 class DictItem:
     kind: str  # "question", "hr", "page"
@@ -305,6 +310,7 @@ def get_question_order(items: List[DictItem]) -> List[str]:
 
 # ---------- Warunek if (złożony) ----------
 
+
 def condition_met(condition: Optional[str], answers: Dict[str, str]) -> bool:
     """
     Obsługuje złożone warunki typu:
@@ -364,6 +370,7 @@ def condition_met(condition: Optional[str], answers: Dict[str, str]) -> bool:
 
 
 # ---------- accept: parser & logika kodów ----------
+
 
 def parse_accept(accept_str: str) -> Set[int]:
     """
@@ -459,10 +466,11 @@ def is_numeric_value_valid(field: Field, value: str) -> bool:
 
 # ---------- Pola z jednej strony słownika ----------
 
+
 def build_fields_from_page(
-        page_items: List[DictItem],
-        page_width: int,
-        answers: Dict[str, str],
+    page_items: List[DictItem],
+    page_width: int,
+    answers: Dict[str, str],
 ) -> tuple[list[Field], list[int]]:
     fields: List[Field] = []
     hr_rows: List[int] = []
@@ -561,6 +569,7 @@ def recompute_field_actives(fields: List[Field], answers: Dict[str, str]):
 
 # ---------- CSV ----------
 
+
 def save_answers_to_csv(answers: Dict[str, str], items: List[DictItem], path: str):
     """
     Zapis:
@@ -588,12 +597,13 @@ def save_answers_to_csv(answers: Dict[str, str], items: List[DictItem], path: st
 
 # ---------- Rysowanie ----------
 
+
 def draw_header(stdscr, current_page: int, total_pages: int, interview_no: int):
     h, w = stdscr.getmaxyx()
 
     # Tekst nagłówka
-    left = f"| WYWIAD {interview_no} |"
-    right = f"| STRONA {current_page}/{total_pages} |"
+    left = f"| WYWIAD {interview_no} | STRONA {current_page}/{total_pages} |"
+    right = f"| PUNCHER_CLI, VER: {VER} |"
 
     # Zbudowanie pełnej linii
     # Między lewą i prawą częścią robimy odstęp tak, by całość wypełniała szerokość terminala.
@@ -622,14 +632,14 @@ def draw_footer(stdscr):
 
 
 def draw_page(
-        stdscr,
-        fields: List[Field],
-        hr_rows: List[int],
-        current_index: int,
-        scroll_offset: int,
-        current_page: int,
-        total_pages: int,
-        interview_no: int,
+    stdscr,
+    fields: List[Field],
+    hr_rows: List[int],
+    current_index: int,
+    scroll_offset: int,
+    current_page: int,
+    total_pages: int,
+    interview_no: int,
 ):
     stdscr.erase()
     h, w = stdscr.getmaxyx()
@@ -650,7 +660,9 @@ def draw_page(
         if f.ftype == "text":
             input_y = content_start_y + (f.input_row - scroll_offset)
             if content_start_y <= input_y <= content_end_y:
-                placeholder = TEXT_PLACEHOLDER_CHAR * max(1, min(f.max_len, page_width - 1))
+                placeholder = TEXT_PLACEHOLDER_CHAR * max(
+                    1, min(f.max_len, page_width - 1)
+                )
                 safe_addstr(stdscr, input_y, 0, placeholder)
                 display_value = f.value[: f.max_len]
                 safe_addstr(stdscr, input_y, f.input_col, display_value)
@@ -665,7 +677,7 @@ def draw_page(
                 max_len = f.max_len
                 placeholder = NUM_PLACEHOLDER_CHAR * max_len
                 safe_addstr(stdscr, input_y, f.input_col, placeholder)
-                display_value = f.value[: max_len]
+                display_value = f.value[:max_len]
                 safe_addstr(stdscr, input_y, f.input_col, display_value)
                 if not f.active:
                     safe_chgat(stdscr, input_y, f.input_col, max_len, curses.A_DIM)
@@ -684,6 +696,7 @@ def draw_page(
 
 # ---------- Pętla wielu ankiet ----------
 
+
 def edit_page(stdscr, items, pages_items):
     curses.curs_set(1)
     stdscr.keypad(True)
@@ -697,7 +710,9 @@ def edit_page(stdscr, items, pages_items):
         current_page_idx = 0
 
         h, w = stdscr.getmaxyx()
-        fields, hr_rows = build_fields_from_page(pages_items[current_page_idx], w, answers)
+        fields, hr_rows = build_fields_from_page(
+            pages_items[current_page_idx], w, answers
+        )
         recompute_field_actives(fields, answers)
 
         def find_next_active(from_index: int) -> Optional[int]:
@@ -930,7 +945,7 @@ def edit_page(stdscr, items, pages_items):
                     curses.beep()
                     continue
                 if current.ftype == "numeric" and not is_numeric_value_valid(
-                        current, current.value
+                    current, current.value
                 ):
                     error_beep()
                     continue
@@ -1088,7 +1103,9 @@ def main():
     # 2. Lista wszystkich nazw zmiennych pytaniowych (kind=="question")
     question_items = [it for it in items if it.kind == "question" and it.name]
     if not question_items:
-        raise RuntimeError("Dictionary has no question items – cannot determine unique ID.")
+        raise RuntimeError(
+            "Dictionary has no question items – cannot determine unique ID."
+        )
 
     var_names = [it.name for it in question_items]
 
