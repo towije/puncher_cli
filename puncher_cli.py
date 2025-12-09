@@ -23,6 +23,9 @@ DATA_DIR.mkdir(exist_ok=True)
 DICT_PATH = DATA_DIR / "questionnaire.txt"
 CSV_PATH = DATA_DIR / "responses.csv"
 
+UNIQUE_ID_VAR: str | None = None  # nazwa zmiennej identyfikatora, np. "P0"
+USED_IDS: set[str] = set()  # zestaw wszystkich ID już użytych w responses.csv
+
 # Motyw ASCII – bez znaków Unicode
 BOX_TL = "╔"
 BOX_TR = "╗"
@@ -39,8 +42,63 @@ NUM_PLACEHOLDER_CHAR = "_"
 MIN_WIDTH = 80
 MIN_HEIGHT = 20  # opcjonalnie, ale zwykle warto
 
+CONTENT_START_Y = 1  # Treść zaczyna się w wierszu 1, pod jednoliniowym headerem
 
-# ---------- Pomocnicze: bezpieczne rysowanie ----------
+
+# ---------- Pomocnicze ----------
+
+def load_used_ids(csv_path: Path, id_var: str) -> set[str]:
+    """
+    Wczytuje wszystkie dotychczas użyte identyfikatory z CSV.
+    Zakłada, że kolumna id_var istnieje w nagłówku responses.csv.
+    """
+    used: set[str] = set()
+    if not csv_path.exists():
+        return used
+
+    with csv_path.open("r", encoding="utf-8", newline="") as f:
+        reader = csv.DictReader(f)
+        if not reader.fieldnames or id_var not in reader.fieldnames:
+            return used
+        for row in reader:
+            val = row.get(id_var)
+            if val:
+                used.add(str(val))
+    return used
+
+
+def warn_duplicate_id(stdscr, value: str):
+    """
+    Wyświetla krótkie ostrzeżenie, że ID już istnieje.
+    """
+    import curses
+    h, w = stdscr.getmaxyx()
+
+    msg2 = f" To ID '{value}' jest już użyte w bazie danych. "
+    spcr = " " * len(msg2)
+    msg11 = " DUPLIKAT ID ! "
+    msg1 = msg11 + " " * (len(msg2) - len(msg11))
+    msg33 = " Proszę użyć innego identyfikatora. "
+    msg3 = msg33  + " " * (len(msg2) - len(msg33))
+
+    lines = [spcr, msg1, spcr, msg2, msg3, spcr]
+    max_len = max(len(x) for x in lines)
+    start_y = max(0, h // 2 - len(lines) // 2)
+    start_x = max(0, (w - max_len) // 2)
+
+    for i, line in enumerate(lines):
+        y = start_y + i
+        if 0 <= y < h:
+            text = line[: max(0, w - start_x)]
+            try:
+                stdscr.addstr(y, start_x, text)
+                stdscr.chgat(y, start_x, len(text), curses.A_REVERSE)
+            except curses.error:
+                pass
+
+    stdscr.refresh()
+    stdscr.getch()  # czekamy na dowolny klawisz
+
 
 def terminal_too_small(stdscr, min_w=MIN_WIDTH, min_h=MIN_HEIGHT) -> bool:
     h, w = stdscr.getmaxyx()
@@ -553,7 +611,7 @@ def draw_header(stdscr, current_page: int, total_pages: int, interview_no: int):
 def draw_footer(stdscr):
     h, w = stdscr.getmaxyx()
     y = h - 1
-    footer = "| ↑/↓: góra/dół | ENTER: dalej | -: brak danych | ctrl+d: wyjście |"
+    footer = "| ↑/↓ | PgUp/PgDn | ENTER: dalej | minus: brak danych | ctrl+d: wyjście |"
 
     # Najpierw wypisz tekst (ucięty, jeśli terminal za wąski)
     safe_addstr(stdscr, y, 0, footer)
@@ -576,7 +634,7 @@ def draw_page(
     stdscr.erase()
     h, w = stdscr.getmaxyx()
     page_width = max(60, w)
-    content_start_y = 1
+    content_start_y = CONTENT_START_Y
     content_end_y = h - 2
 
     draw_header(stdscr, current_page, total_pages, interview_no)
@@ -626,12 +684,10 @@ def draw_page(
 
 # ---------- Pętla wielu ankiet ----------
 
-def edit_page(stdscr):
+def edit_page(stdscr, items, pages_items):
     curses.curs_set(1)
     stdscr.keypad(True)
 
-    items = parse_dictionary(DICT_PATH)
-    pages_items = split_pages(items)
     total_pages = len(pages_items)
 
     interview_no = 1
@@ -676,7 +732,7 @@ def edit_page(stdscr):
                 continue
 
             h, w = stdscr.getmaxyx()
-            content_start_y = 1
+            content_start_y = CONTENT_START_Y
             content_end_y = h - 2
             content_height = max(1, content_end_y - content_start_y + 1)
 
@@ -702,6 +758,9 @@ def edit_page(stdscr):
                 else:
                     # ostatnia strona, nic aktywnego -> zapis i nowa ankieta
                     save_answers_to_csv(answers, items, CSV_PATH)
+                    id_val = str(answers.get(UNIQUE_ID_VAR, "")).strip()
+                    if id_val:
+                        USED_IDS.add(id_val)
                     interview_no += 1
                     break  # nowa ankieta
 
@@ -772,6 +831,59 @@ def edit_page(stdscr):
                 else:
                     continue
 
+            # PAGE UP – powrót do poprzedniej strony
+            if ch == curses.KEY_PPAGE:
+                if current_page_idx > 0:
+                    current_page_idx -= 1
+
+                    h, w = stdscr.getmaxyx()
+                    fields, hr_rows = build_fields_from_page(
+                        pages_items[current_page_idx], w, answers
+                    )
+                    recompute_field_actives(fields, answers)
+
+                    # ustawiamy kursor na OSTATNIM aktywnym polu na stronie
+                    if fields:
+                        idx = len(fields) - 1
+                        while idx >= 0 and not fields[idx].active:
+                            idx -= 1
+                        current_index = max(idx, 0)
+
+                        # scroll tak, żeby pole było widoczne
+                        target_row = fields[current_index].input_row
+                        content_start_y = CONTENT_START_Y
+                        h, w = stdscr.getmaxyx()
+                        content_end_y = h - 2
+                        content_height = max(1, content_end_y - content_start_y + 1)
+                        scroll_offset = max(0, target_row - content_height + 1)
+
+                        cursor_pos = len(fields[current_index].value or "")
+                    continue
+
+            # PAGE DOWN – przejście do następnej strony (bez zapisu ankiety)
+            if ch == curses.KEY_NPAGE:
+                if current_page_idx < total_pages - 1:
+                    current_page_idx += 1
+
+                    h, w = stdscr.getmaxyx()
+                    fields, hr_rows = build_fields_from_page(
+                        pages_items[current_page_idx], w, answers
+                    )
+                    recompute_field_actives(fields, answers)
+
+                    # ustawiamy kursor na PIERWSZYM aktywnym polu
+                    current_index = 0
+                    if fields and not fields[0].active:
+                        i = 0
+                        while i < len(fields) and not fields[i].active:
+                            i += 1
+                        if i < len(fields):
+                            current_index = i
+
+                    scroll_offset = 0
+                    cursor_pos = len(fields[current_index].value or "") if fields else 0
+                continue
+
             # GÓRA – poprzednie aktywne
             if ch == curses.KEY_UP:
                 prev_idx = find_prev_active(current_index)
@@ -807,6 +919,9 @@ def edit_page(stdscr):
                             cursor_pos = 0
                         else:
                             save_answers_to_csv(answers, items, CSV_PATH)
+                            id_val = str(answers.get(UNIQUE_ID_VAR, "")).strip()
+                            if id_val:
+                                USED_IDS.add(id_val)
                             interview_no += 1
                             break
                     continue
@@ -819,6 +934,15 @@ def edit_page(stdscr):
                 ):
                     error_beep()
                     continue
+
+                # sprawdzenie unikalności ID przy opuszczaniu pola
+                if current.name == UNIQUE_ID_VAR:
+                    val = str(current.value or "").strip()
+                    if val and val in USED_IDS:
+                        error_beep()
+                        warn_duplicate_id(stdscr, val)
+                        # NIE opuszczamy pola, użytkownik musi zmienić ID
+                        continue
 
                 answers[current.name] = current.value
                 recompute_field_actives(fields, answers)
@@ -844,6 +968,9 @@ def edit_page(stdscr):
                         cursor_pos = 0
                     else:
                         save_answers_to_csv(answers, items, CSV_PATH)
+                        id_val = str(answers.get(UNIQUE_ID_VAR, "")).strip()
+                        if id_val:
+                            USED_IDS.add(id_val)
                         interview_no += 1
                         break
                 continue
@@ -899,6 +1026,16 @@ def edit_page(stdscr):
                 recompute_field_actives(fields, answers)
 
                 if auto_adv and current.value not in ("", "-"):
+
+                    # jeśli to pole identyfikatora – sprawdź duplikat PRZED auto-skokiem
+                    if current.name == UNIQUE_ID_VAR:
+                        val = str(current.value or "").strip()
+                        if val and val in USED_IDS:
+                            error_beep()
+                            warn_duplicate_id(stdscr, val)
+                            # zostajemy w tym polu, nie przeskakujemy dalej
+                            continue
+
                     nxt = find_next_active(current_index)
                     if nxt is not None:
                         current_index = nxt
@@ -920,6 +1057,9 @@ def edit_page(stdscr):
                             cursor_pos = 0
                         else:
                             save_answers_to_csv(answers, items, CSV_PATH)
+                            id_val = str(answers.get(UNIQUE_ID_VAR, "")).strip()
+                            if id_val:
+                                USED_IDS.add(id_val)
                             interview_no += 1
                             break
                 continue
@@ -939,7 +1079,27 @@ def edit_page(stdscr):
 
 
 def main():
-    curses.wrapper(edit_page)
+    global UNIQUE_ID_VAR, USED_IDS
+
+    # 1. Parsujemy słownik tylko raz
+    items = parse_dictionary(DICT_PATH)
+    pages_items = split_pages(items)
+
+    # 2. Lista wszystkich nazw zmiennych pytaniowych (kind=="question")
+    question_items = [it for it in items if it.kind == "question" and it.name]
+    if not question_items:
+        raise RuntimeError("Dictionary has no question items – cannot determine unique ID.")
+
+    var_names = [it.name for it in question_items]
+
+    # 3. Pierwsze pytanie traktujemy jako identyfikator ankiety
+    UNIQUE_ID_VAR = var_names[0]
+
+    # 4. Wczytujemy dotychczas użyte ID z responses.csv
+    USED_IDS = load_used_ids(Path(CSV_PATH), UNIQUE_ID_VAR)
+
+    # 5. Start curses, przekazujemy items + pages_items
+    curses.wrapper(edit_page, items, pages_items)
 
 
 if __name__ == "__main__":
