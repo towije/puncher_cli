@@ -98,12 +98,16 @@ varlab=In the past year, did your family...
 accept=1:4,8
 
 hr
+# or, for legacy .ini compatibility:
+hr=1
 
 [P247]
 varlab=To which social class would you say you belong?
 accept=1:5
 
 page
+# or, for legacy .ini compatibility:
+page=1
 ```
 
 Supported tokens:
@@ -111,8 +115,8 @@ Supported tokens:
 - `accept=` — numeric validation (ranges, lists)
 - `text=` — open-ended text question
 - `if=` — activation condition (`p1=1`, `p1=1 & p2!=3`, etc.)
-- `hr` — horizontal divider
-- `page` — explicit page break
+- `hr`, `hr=1` — horizontal divider
+- `page`, `page=1` — explicit page break
 
 ---
 
@@ -194,4 +198,3 @@ please open an Issue or submit a Pull Request.
 MIT
 
 ---
-

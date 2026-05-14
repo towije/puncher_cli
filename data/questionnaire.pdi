@@ -1,0 +1,1610 @@
+[qID]
+varlab=Numer ze stempla
+accept=1:999
+
+hr
+
+[sampleID]
+text=20
+varlab=Kod z naklejki
+mis=0
+
+hr
+
+[operator]
+text=5
+varlab=Identyfikator osoby wpisujacej
+mis=0
+
+hr
+
+[qsex]
+accept=1:2
+varlab=Plec z wersji kwestionariusza 1=K 2=M
+mis=0
+
+hr
+
+[uwagi]
+text=255
+varlab=Dopiski
+
+page=1
+
+[p1s1]
+accept=1:5
+varlab=Rodzina
+
+[p1s2]
+accept=1:5
+varlab=Przyjaciele i znajomi
+
+[p1s3]
+accept=1:5
+varlab=Czas wolny
+
+[p1s4]
+accept=1:5
+varlab=Polityka
+
+[p1s5]
+accept=1:5
+varlab=Praca
+
+[p1s6]
+accept=1:5
+varlab=Religia
+
+hr=1
+
+[p2i1]
+accept=0:1
+varlab=Dobre maniery
+
+[p2i2]
+accept=0:1
+varlab=Niezaleznosc
+
+[p2i3]
+accept=0:1
+varlab=Ciezka praca
+
+[p2i4]
+accept=0:1
+varlab=Poczucie odpowiedzialnosci
+
+[p2i5]
+accept=0:1
+varlab=Wyobraznia
+
+[p2i6]
+accept=0:1
+varlab=Tolerancja i szacunek dla innych
+
+[p2i7]
+accept=0:1
+varlab=Oszczedzanie pieniedzy i rzeczy
+
+[p2i8]
+accept=0:1
+varlab=Zdecydowanie
+
+[p2i9]
+accept=0:1
+varlab=Religijnosc
+
+[p2i10]
+accept=0:1
+varlab=Bezinteresownosc
+
+[p2i11]
+accept=0:1
+varlab=Posluszenstwo
+
+hr=1
+
+[p3i1]
+accept=0:1
+varlab=ludzie odmiennej rasy
+
+[p3i2]
+accept=0:1
+varlab=narkomani
+
+[p3i3]
+accept=0:1
+varlab=imigranci, zagraniczni robotnicy
+
+[p3i4]
+accept=0:1
+varlab=osoby z kryminalna przeszloscia
+
+[p3i5]
+accept=0:1
+varlab=homoseksualisci
+
+[p3i6]
+accept=0:1
+varlab=ludzie o skrajnie lewicowych pogladach
+
+[p3i7]
+accept=0:1
+varlab=osoby innego wyznania
+
+[p3i8]
+accept=0:1
+varlab=ludzie o skrajnie prawicowych pogladach
+
+[p3i9]
+accept=0:1
+varlab=ludzie mowiacy innym jezykiem
+
+[p3i10]
+accept=0:1
+varlab=rodziny wielodzietne
+
+[p3i11]
+accept=0:1
+varlab=alkoholicy
+
+[p3i12]
+accept=0:1
+varlab=muzulmanie
+
+[p3i13]
+accept=0:1
+varlab=pary zyjace bez slubu
+
+[p3i14]
+accept=0:1
+varlab=Zydzi
+
+[p3i15]
+accept=0:1
+varlab=ludzie chorzy na AIDS
+
+[p3i16]
+accept=0:1
+varlab=Cyganie
+
+page=1
+
+[p4s1]
+accept=1:4
+varlab=Daze do tego, by byc soba, a nie nasladowac innych.
+
+[p4s2]
+accept=1:4
+varlab=Jednym z glownych celow w moim zyciu jest, zeby moi rodzice byli ze mnie dumni.
+
+[p4s3]
+accept=1:4
+varlab=Male dziecko cierpi na tym, gdy jego matka pracuje.
+
+[p4s4]
+accept=1:4
+varlab=Ogolnie rzecz biorac, mezczyzni sa lepszymi przywodcami politycznymi niz kobiety.
+
+[p4s5]
+accept=1:4
+varlab=Wyzsze wyksztalcenie jest wazniejsze dla chlopca niz dziewczynki.
+
+[p4s6]
+accept=1:4
+varlab=Ogolnie rzecz biorac, mezczyzni lepiej zarzadzaja biznesem niz kobiety.
+
+[p4s7]
+accept=1:4
+varlab=Zajmowanie sie tylko domem moze dawac tyle samo satysfakcji co praca zarobkowa.
+
+hr=1
+
+[p5s1]
+accept=1:5
+varlab=Gdy nie ma wystarczajaco duzo miejsc pracy, mezczyzni maja wieksze do nich prawo niz kobiety.
+
+[p5s2]
+accept=1:5
+varlab=Gdy brakuje miejsc pracy, przede wszystkim Polacy powinni ja dostac, a nie ludzie przyjezdzajacy z innych krajow.
+
+[p5s3]
+accept=1:5
+varlab=Jesli kobieta zarabia wiecej niz jej maz, to prawie na pewno spowoduje to problemy.
+
+[p5s4]
+accept=1:5
+varlab=Dorosle dzieci maja obowiazek zapewnic rodzicom dlugoterminowa opieke.
+
+hr=1
+
+page=1
+
+[p6s1]
+accept=0:4
+varlab=postrzegaja osoby w wieku powyzej 65 lat jako przyjazne?
+
+[p6s2]
+accept=0:4
+varlab=postrzegaja osoby w wieku powyzej 65 lat jako kompetentne?
+
+[p6s3]
+accept=0:4
+varlab=postrzegaja osoby w wieku powyzej 65 lat jako godne szacunku?
+
+[p6s4]
+accept=0:4
+varlab=postrzegaja osoby w wieku okolo 30 lat jako przyjazne?
+
+[p6s5]
+accept=0:4
+varlab=postrzegaja osoby w wieku okolo 30 lat jako kompetentne?
+
+[p6s6]
+accept=0:4
+varlab=postrzegaja osoby w wieku okolo 30 lat jako godne szacunku?
+
+hr=1
+
+[p7a]
+accept=1:3
+varlab=Ponizej wymienione sa trzy podstawowe rodzaje postaw wobec spoleczenstwa, w ktorym zyjemy. Prosze zaznaczyc te, ktora najlepiej wyraza %pana% wlasna opinie.
+
+hr=1
+
+[p7bs1]
+accept=1:3
+varlab=Czy, %pana% zdaniem, wiekszy szacunek dla wladzy bylby czyms dobrym, zlym czy jest to %panu% obojetne?
+
+[p7bs2]
+accept=1:3
+varlab=A czy uzywanie sztucznej inteligencji na wieksza skale byloby dobre, zle czy jest to %panu% obojetne?
+
+hr=1
+
+[p8]
+accept=1:5
+varlab=Czy, ogolnie rzecz biorac, uwaza %pan%, ze jest:
+
+hr=1
+
+page=1
+
+[p9]
+accept=1:5
+varlab=Ogolnie rzecz biorac, jak okreslil%by% %pan% swoj obecny stan zdrowia?
+
+hr=1
+
+[p10]
+accept=1:10
+varlab=Niektorzy ludzie uwazaja, ze maja calkowicie wolny wybor i w pelni kontroluja sposob, w jaki uklada sie im zycie. Inni czuja, ze to co robia, nie ma zadnego realnego wplywu na to, co im sie przydarza. Uzywajac skali - na ktorej 1 oznacza brak wply...
+
+hr=1
+
+[p11]
+accept=1:10
+varlab=Ogolnie rzecz biorac, w jakim stopniu jest %pan% ostatnio zadowolony ze swojego zycia jako calosci? Prosze ocenic na skali od 1 do 10, gdzie 1 oznacza, ze jest %pan% calkowicie niezadowolon%y%, a 10 calkowicie zadowolon%y%.
+
+hr=1
+
+[p12]
+accept=1:10
+varlab=Ogolnie rzecz biorac, w jakim stopniu jest %pan% ostatnio zadowolon%y% z sytuacji finansowej swojego gospodarstwa domowego? Prosze ocenic na skali od 1 do 10, gdzie 1 oznacza, ze jest %pan% calkowicie niezadowolon%y%, a 10 calkowicie zadowolon%y%.
+
+hr=1
+
+[p13]
+accept=1:10
+varlab=Ogolnie rzecz biorac, w jakim stopniu jest %pan% ostatnio zadowolon%y% z zycia rodzinnego? Prosze ocenic na skali od 1 do 10, gdzie 1 oznacza, ze jest %pan% calkowicie niezadowolon%y%, a 10 calkowicie zadowolon%y%.
+
+hr=1
+
+[p14]
+accept=1:10
+varlab=Ogolnie rzecz biorac, w jakim stopniu jest %pan% ostatnio zadowolon%y% ze swojej pracy? Prosze ocenic na skali od 1 do 10, gdzie 1 oznacza, ze jest %pan% calkowicie niezadowolon%y%, a 10 calkowicie zadowolon%y%.
+
+hr=1
+
+[p15]
+accept=1:2
+varlab=Czy, ogolnie rzecz biorac, uwaza %pan%, ze:
+
+hr=1
+
+page=1
+
+[p16s1]
+accept=1:4
+varlab=Swojej rodzinie
+
+[p16s2]
+accept=1:4
+varlab=Swoim sasiadom
+
+[p16s3]
+accept=1:4
+varlab=Ludziom, ktorych zna %pan% osobiscie
+
+[p16s4]
+accept=1:4
+varlab=Ludziom, ktorych spotyka %pan% po raz pierwszy
+
+[p16s5]
+accept=1:4
+varlab=Ludziom innego wyznania
+
+[p16s6]
+accept=1:4
+varlab=Ludziom innej narodowosci
+
+hr=1
+
+[p17]
+accept=1:2
+varlab=Czy, ogolnie rzecz biorac, uwaza %pan%, ze:
+
+hr=1
+
+[p18]
+accept=1:2
+varlab=A czy, %pana% zdaniem:
+
+hr=1
+
+[p19s1]
+accept=1:3
+varlab=zebraniach samorzadu lokalnego lub posiedzeniach rady gminy/miasta/dzielnicy
+
+[p19s2]
+accept=1:3
+varlab=zebraniu mieszkancow
+
+[p19s3]
+accept=1:3
+varlab=dyskusji dotyczacej %pana% najblizszego otoczenia
+
+[p19s4]
+accept=1:3
+varlab=akcji na rzecz poprawy %pana% najblizszego otoczenia
+
+hr=1
+
+page=1
+
+[p20s1]
+accept=1:4
+varlab=Moge liczyc na pomoc moich sasiadow
+
+[p20s2]
+accept=1:4
+varlab=Chetnie spedzam czas wolny z moimi sasiadami
+
+[p20s3]
+accept=1:4
+varlab=Wraz z sasiadami dzialam na rzecz poprawy naszego otoczenia
+
+hr=1
+
+[p21]
+accept=1920:2026
+varlab=Od jak dawna mieszka %pan% w obecnym miejscu?
+
+hr=1
+
+[p22s1]
+accept=1:4
+varlab=Kosciol katolicki
+
+[p22s2]
+accept=1:4
+varlab=Wojsko
+
+[p22s3]
+accept=1:4
+varlab=Prasa
+
+[p22s4]
+accept=1:4
+varlab=Telewizja
+
+[p22s5]
+accept=1:4
+varlab=Radio
+
+[p22s6]
+accept=1:4
+varlab=Media spolecznosciowe
+
+[p22s7]
+accept=1:4
+varlab=Zwiazki zawodowe
+
+[p22s8]
+accept=1:4
+varlab=Policja
+
+[p22s9]
+accept=1:4
+varlab=Sadownictwo
+
+hr=1
+
+page=1
+
+[p23s1]
+accept=1:3
+varlab=Organizacja religijna lub koscielna
+
+[p23s2]
+accept=1:3
+varlab=Organizacja zajmujaca sie sportem i rekreacja
+
+[p23s3]
+accept=1:3
+varlab=Organizacja zajmujaca sie nauka, sztuka, muzyka
+
+[p23s4]
+accept=1:3
+varlab=Zwiazek zawodowy
+
+[p23s5]
+accept=1:3
+varlab=Partia polityczna
+
+[p23s6]
+accept=1:3
+varlab=Organizacja zajmujaca sie ochrona srodowiska
+
+[p23s7]
+accept=1:3
+varlab=Stowarzyszenie zawodowe
+
+[p23s8]
+accept=1:3
+varlab=Organizacja zajmujaca sie pomoca charytatywna i humanitarna
+
+[p23s9]
+accept=1:3
+varlab=Grupa samopomocowa, grupa wsparcia
+
+[p23s10]
+accept=1:3
+varlab=Grupa kobiet
+
+[p23s11]
+accept=1:3
+varlab=Grupa mieszkancow, organizacja sasiedzka
+
+hr=1
+
+[p24s1]
+accept=1:4
+varlab=Rzad
+
+[p24s2]
+accept=1:4
+varlab=Partie polityczne
+
+[p24s3]
+accept=1:4
+varlab=Parlament, tzn. Sejm i Senat
+
+[p24s4]
+accept=1:4
+varlab=Administracje panstwowa
+
+[p24s5]
+accept=1:4
+varlab=Glowe panstwa (Prezydenta)
+
+[p24s6]
+accept=1:4
+varlab=Uniwersytety
+
+[p24s7]
+accept=1:4
+varlab=Wybory
+
+[p24s8]
+accept=1:4
+varlab=Duze przedsiebiorstwa
+
+[p24s9]
+accept=1:4
+varlab=Organizacje na rzecz ochrony srodowiska
+
+[p24s10]
+accept=1:4
+varlab=Organizacje charytatywne lub humanitarne
+
+hr=1
+
+page=1
+
+[qwer]
+accept=4:5
+varlab=Jeśli pytanie P25 ma 4 nazwiska wpisujemy 4, jeśli 5 nazwisk wpisujemy 5
+
+[p25a]
+accept=0:4
+varlab=Ponizej wymienieni sa czterej swiatowi przywodcy. Ilu z nich, ogolnie, darzy %pan% zaufaniem? Prosze nie wskazywac nazwisk tylko zaznaczyc, ilu z nich %pan% ufa.
+if=qwer=4
+
+hr=1
+
+[p25b]
+accept=0:5
+varlab=Ponizej wymienionych jest pieciu swiatowych przywodcow. Ilu z nich, ogolnie, darzy %pan% zaufaniem? Prosze nie wskazywac nazwisk tylko zaznaczyc, ilu z nich %pan% ufa.
+if=qwer=5
+
+hr=1
+
+[p26s1]
+accept=1:4
+varlab=Unia Europejska
+
+[p26s2]
+accept=1:4
+varlab=Organizacja Narodow Zjednoczonych (ONZ)
+
+[p26s3]
+accept=1:4
+varlab=Organizacja Traktatu Polnocnoatlantyckiego (NATO)
+
+[p26s4]
+accept=1:4
+varlab=Bank Swiatowy
+
+[p26s5]
+accept=1:4
+varlab=Miedzynarodowy Fundusz Walutowy (IMF)
+
+[p26s6]
+accept=1:4
+varlab=Swiatowa Organizacja Zdrowia (WHO)
+
+[p26s7]
+accept=1:4
+varlab=Swiatowa Organizacja Handlu (WTO)
+
+hr=1
+
+[p27s1]
+accept=1:4
+varlab=Odpowiedz I
+
+[p27s2]
+accept=1:4
+varlab=Odpowiedz II
+
+[p27s3]
+accept=1:4
+varlab=Odpowiedz III
+
+[p27s4]
+accept=1:4
+varlab=Odpowiedz IV
+
+hr=1
+
+page=1
+
+[p28s1]
+accept=1:2
+varlab=Utrzymanie porządku w społeczeństwie
+
+[p28s2]
+accept=1:2
+varlab=Stworzenie ludziom większych możliwości wpływania na decyzje władz
+
+[p28s3]
+accept=1:2
+varlab=Przeciwdziałanie wzrostowi cen
+
+[p28s4]
+accept=1:2
+varlab=Stworzenie szerszych możliwości swobodnego wypowiadania poglądów
+
+hr=1
+
+[p29]
+accept=1:4
+varlab=Na ile bezpiecznie czuje sie %pan% obecnie?
+
+hr=1
+
+[p30s1]
+accept=1:4
+varlab=Rabunek, kradziez
+
+[p30s2]
+accept=1:4
+varlab=Przemoc i bojki na ulicy
+
+[p30s3]
+accept=1:4
+varlab=Molestowanie seksualne
+
+[p30s4]
+accept=1:4
+varlab=Fizyczny atak
+
+[p30s5]
+accept=1:4
+varlab=Wojna z udzialem mojego kraju
+
+[p30s6]
+accept=1:4
+varlab=Atak terrorystyczny
+
+[p30s7]
+accept=1:4
+varlab=Wojna domowa
+
+[p30s8]
+accept=1:4
+varlab=Pandemia lub kleski zywiolowe
+
+[p30s9]
+accept=1:4
+varlab=Rzad podsluchujacy rozmowy telefoniczne, czytajacy moja korespondencje i maile
+
+hr=1
+
+[p31]
+accept=1:2
+varlab=Wszyscy oczywiscie mamy nadzieje, ze nie bedzie nastepnej wojny, lecz gdyby do niej doszlo, czy byl%by% %pan% sklonn%y% walczyc w obronie naszego kraju?
+
+hr=1
+
+page=1
+
+[p32s1]
+accept=1:4
+varlab=Chiny
+
+[p32s2]
+accept=1:4
+varlab=Unia Europejska
+
+[p32s3]
+accept=1:4
+varlab=Ukraina
+
+[p32s4]
+accept=1:4
+varlab=Bialorus
+
+[p32s5]
+accept=1:4
+varlab=Rosja
+
+[p32s6]
+accept=1:4
+varlab=Niemcy
+
+[p32s7]
+accept=1:4
+varlab=Indie
+
+[p32s8]
+accept=1:4
+varlab=Izrael
+
+[p32s9]
+accept=1:4
+varlab=Arabia Saudyjska
+
+[p32s10]
+accept=1:4
+varlab=Stany Zjednoczone (USA)
+
+hr=1
+
+[p33a]
+accept=0:10
+varlab=Na swiecie dzieje sie wiele bardzo waznych rzeczy, o ktorych opinia publiczna nigdy nie jest informowana.
+
+hr=1
+
+[p33b]
+accept=0:10
+varlab=Politycy zazwyczaj nie ujawniaja prawdziwych motywow swoich decyzji.
+
+hr=1
+
+[p33c]
+accept=0:10
+varlab=Agencje rzadowe scisle monitoruja wszystkich obywateli.
+
+hr=1
+
+[p33d]
+accept=0:10
+varlab=Wydarzenia, ktore na pierwszy rzut oka wydaja sie nie miec ze soba nic wspolnego, czesto sa wynikiem tajnych dzialan.
+
+hr=1
+
+[p33e]
+accept=0:10
+varlab=Istnieja tajne organizacje, ktore maja duzy wplyw na decyzje polityczne.
+
+hr=1
+
+page=1
+
+[p34]
+accept=1:10
+varlab=Czy, %pana% zdaniem, dochody powinny byc mniej zroznicowane czy tez powinny one w wiekszym stopniu nagradzac indywidualny wysilek?
+
+hr=1
+
+[p35]
+accept=1:10
+varlab=Czy wiecej przedsiebiorstw powinno byc w rekach prywatnych czy tez wiecej przedsiebiorstw powinno nalezec do panstwa?
+
+hr=1
+
+[p36]
+accept=1:10
+varlab=Czy Panstwo powinno podejmowac wiecej dzialan, zeby zaspokoic potrzeby wszystkich ludzi czy tez ludzie sami powinni podejmowac wiecej dzialan, zeby zaspokoic swoje potrzeby?
+
+hr=1
+
+[p37]
+accept=1:10
+varlab=Czy uwaza %pan%, ze rywalizacja jest dobra rzecza czy tez rywalizacja jest rzecza szkodliwa?
+
+hr=1
+
+[p38]
+accept=1:10
+varlab=Czy sadzi %pan%, ze na dluzsza mete to ciezka praca zapewnia lepsze zycie czy tez sukces jest raczej kwestia szczescia i znajomosci?
+
+hr=1
+
+[p39]
+accept=1:10
+varlab=Jak duza jest, %pana% zdaniem, korupcja w Polsce? Prosze zaznaczyc swoja odpowiedz poslugujac sie skala, na ktorej 1 oznacza "w Polsce nie ma korupcji", a 10 oznacza "w Polsce korupcja jest bardzo rozpowszechniona".Jesli %pana% opinia jest posredn...
+
+hr=1
+
+page=1
+
+[p40]
+accept=1:10
+varlab=Na ile prawdopodobne jest, ze w Polsce spotka kara osoby wreczajace lub przyjmujace lapowki, prezenty lub przyslugi w zamian za zalatwienie korzystnego zlecenia na uslugi finansowane ze srodkow publicznych? Prosze zaznaczyc swoja odpowiedz na skal...
+
+hr=1
+
+[p41s1]
+accept=1:10
+varlab=Imigracja - ludzie przyjezdzajacy do Polski, by tu pracowac lub mieszkac
+
+[p41s2]
+accept=1:10
+varlab=Emigracja - ludzie wyjezdzajacy z Polski
+
+hr=1
+
+[p42]
+accept=1:4
+varlab=Co %pan% sadzi o ludziach z innych krajow, ktorzy przyjezdzaja do nas, zeby pracowac? Co rzad powinien zrobic w tej sprawie?
+
+hr=1
+
+[p43]
+accept=1:10
+varlab=Czy, %pana% zdaniem, zycie kulturalne w Polsce jest generalnie oslabiane czy wzbogacane przez osoby przyjezdzajace tu z innych krajow?
+
+hr=1
+
+[p44]
+accept=1:10
+varlab=Ogolnie rzecz biorac, czy, %pana% zdaniem, swiat ma sie lepiej czy gorzej dzieki nauce i technologii? Prosze ocenic na skali od 1 do 10, gdzie 1 oznacza, ze swiat ma sie zdecydowanie gorzej, a 10, ze swiat ma sie zdecydowanie lepiej.
+
+hr=1
+
+page=1
+
+[p45]
+accept=1:5
+varlab=Jak wazna jest dla %pana% osobiscie sprawa zmiany klimatu?
+
+hr=1
+
+[p46]
+accept=1:10
+varlab=W jakim stopniu czuje %pan% osobista odpowiedzialnosc za proby ograniczenia zmian klimatu?
+
+hr=1
+
+[p47]
+accept=1:3
+varlab=Czy, %pana% zdaniem, sztuczna inteligencja jest dobra czy zla dla ludzkosci?
+
+hr=1
+
+[p48]
+accept=1:3
+varlab=Oto dwa stwierdzenia, ktore ludzie czasami wyglaszaja, mowiac o srodowisku i wzroscie gospodarczym. Ktore z nich jest blizsze %pana% wlasnej opinii?
+
+[p48t1]
+text=255
+varlab=Inna odpowiedz. Prosze zapisac
+if=p48=3
+
+hr=1
+
+[p49]
+accept=1:10
+varlab=Na ile wazny jest Bog w %pana% zyciu? Prosze zaznaczyc swoja odpowiedz poslugujac sie skala od 1 do 10, na ktorej 1 oznacza, ze Bog jest w %pana% zyciu w ogole niewazny, a 10, ze jest bardzo wazny.
+
+hr=1
+
+[p50s1]
+accept=1:4
+varlab=Gdy nauka i religia sa w konflikcie, racja zawsze lezy po stronie religii.
+
+[p50s2]
+accept=1:4
+varlab=Jedyna sluszna religia jest moja religia.
+
+hr=1
+
+page=1
+
+[p51]
+accept=1:7
+varlab=Nie liczac slubow, chrztow i pogrzebow, jak czesto chodzi %pan% do kosciola?
+
+hr=1
+
+[p52]
+accept=1:8
+varlab=Pomijajac uczestnictwo w nabozenstwach, jak czesto modli sie %pan% do Boga?
+
+hr=1
+
+[p53]
+accept=1:4
+varlab=Niezaleznie od tego, czy chodzi %pan% do kosciola czy nie, czy uwaza %pan% siebie za osobe:
+
+hr=1
+
+[p54]
+accept=1:4
+varlab=Jak czesto, jesli w ogole, zastanawia sie %pan% nad sensem zycia?
+
+hr=1
+
+[p55s1]
+accept=1:10
+varlab=Domaganie sie od panstwa swiadczen, do ktorych nie jest sie uprawnionym
+
+[p55s2]
+accept=1:10
+varlab=Jazda autobusem, tramwajem bez waznego biletu
+
+[p55s3]
+accept=1:10
+varlab=Kradziez
+
+[p55s4]
+accept=1:10
+varlab=Oszukiwanie na podatkach
+
+[p55s5]
+accept=1:10
+varlab=Przyjmowanie lapowek przy wykonywaniu obowiazkow sluzbowych
+
+[p55s6]
+accept=1:10
+varlab=Homoseksualizm (seks miedzy osobami tej samej plci)
+
+[p55s7]
+accept=1:10
+varlab=Przerywanie ciazy
+
+page=1
+
+[p55s8]
+accept=1:10
+varlab=Rozwod
+
+[p55s9]
+accept=1:10
+varlab=Seks przed slubem
+
+[p55s10]
+accept=1:10
+varlab=Samobojstwo
+
+[p55s11]
+accept=1:10
+varlab=Eutanazja
+
+[p55s12]
+accept=1:10
+varlab=Bicie zony przez meza
+
+[p55s13]
+accept=1:10
+varlab=Bicie dzieci przez rodzicow
+
+[p55s14]
+accept=1:10
+varlab=Przemoc wobec innych
+
+[p55s15]
+accept=1:10
+varlab=Przemoc polityczna
+
+[p55s16]
+accept=1:10
+varlab=Kara smierci
+
+hr=1
+
+[p56]
+accept=1:10
+varlab=Jak duza swobode wyboru i kontroli ma/mi%al%a %pan% w kwestii planowania rodziny, czyli w decydowaniu czy, kiedy i ile miec dzieci? Prosze uzyc tej skali, gdzie 1 oznacza "brak jakiegokolwiek wyboru", a 10 oznacza "pelna swobode wyboru".
+
+hr=1
+
+page=1
+
+[p57s1]
+accept=1:4
+varlab=Srodki antykoncepcyjne powinny byc dostepne dla wszystkich, niezaleznie od stanu cywilnego i wieku.
+
+[p57s2]
+accept=1:4
+varlab=Kobiety powinny miec dostep do bezpiecznych uslug przerywania niechcianej ciazy.
+
+[p57s3]
+accept=1:4
+varlab=Wazne jest, aby dziewczeta kontynuowaly nauke, nawet jesli zachodza w ciaze i maja dzieci.
+
+[p57s4]
+accept=1:4
+varlab=Jesli mezczyzna ma dziewczyne, zone lub partnerke, powinien wiedziec caly czas, gdzie ona jest.
+
+[p57s5]
+accept=1:4
+varlab=Nikt nie powinien sie wtracac w sprawy przemocy w rodzinie.
+
+[p57s6]
+accept=1:4
+varlab=Osoby, ktore ubieraja sie, zachowuja lub identyfikuja jako plec przeciwna powinny byc traktowane tak samo jak inni.
+
+[p57s7]
+accept=1:4
+varlab=Edukacja seksualna pomaga mlodym ludziom podejmowac swiadome decyzje.
+
+[p57s8]
+accept=1:4
+varlab=Dziewczeta i kobiety same powinny decydowac, kiedy, czy i z kim zawrzec zwiazek malzenski.
+
+hr=1
+
+[p58]
+accept=1:4
+varlab=W jakim stopniu interesuje sie %pan% polityka?
+
+hr=1
+
+[p59s1]
+accept=1:5
+varlab=Gazeta codzienna
+
+[p59s2]
+accept=1:5
+varlab=Wiadomosci w telewizji
+
+[p59s3]
+accept=1:5
+varlab=Wiadomosci w radiu
+
+[p59s4]
+accept=1:5
+varlab=Czytanie wiadomosci krajowych i ze swiata na telefonie komorkowym
+
+[p59s5]
+accept=1:5
+varlab=Czytanie wiadomosci krajowych i ze swiata na poczcie e-mail
+
+[p59s6]
+accept=1:5
+varlab=Internet
+
+[p59s7]
+accept=1:5
+varlab=Media spolecznosciowe(Facebok, Twittter/X, etc.)
+
+[p59s8]
+accept=1:5
+varlab=Rozmowa z przyjaciolmi, ze znajomymi
+
+hr=1
+
+page=1
+
+[p60s1]
+accept=1:9
+varlab=Rzad
+
+[p60s2]
+accept=1:9
+varlab=Media
+
+[p60s3]
+accept=1:9
+varlab=Biznes
+
+[p60s4]
+accept=1:9
+varlab=Organizacje pozarzadowe
+
+[p60s5]
+accept=1:9
+varlab=Moj pracodawca
+
+hr=1
+
+[p61s1]
+accept=1:3
+varlab=Przekazanie darowizny na rzecz grupy lub kampanii
+
+[p61s2]
+accept=1:3
+varlab=Kontaktowanie sie z przedstawicielem wladz
+
+[p61s3]
+accept=1:3
+varlab=Podpisanie petycji
+
+[p61s4]
+accept=1:3
+varlab=Udzial w pokojowych demonstracjach
+
+[p61s5]
+accept=1:3
+varlab=Przylaczenie sie do bojkotu
+
+[p61s6]
+accept=1:3
+varlab=Przylaczenie sie do strajkow
+
+[p61s7]
+accept=1:3
+varlab=Komentowanie polityki w Internecie (media spolecznosciowe, blogi itp.)
+
+[p61s8]
+accept=1:3
+varlab=Udzial w politycznym powstaniu
+
+hr=1
+
+[p62s1]
+accept=1:4
+varlab=Wybory samorzadowe/lokalne
+
+[p62s2]
+accept=1:4
+varlab=Wybory krajowe
+
+hr=1
+
+page=1
+
+[p63]
+accept=1:10
+varlab=Gdyby jutro mialy sie odbyc w Polsce wybory, na ktora partie odda%l%by %pan% swoj glos? Jesli nie jest %pan% %pewien%, prosze wskazac te partie, ktorej program wydaje sie %panu% najbardziej atrakcyjny.
+
+[p63t1]
+text=255
+varlab=Inna partia lub organizacja (Jaka? Prosze wpisac)
+if=p63=9
+
+hr=1
+
+[p64]
+accept=1:3
+varlab=Gdy glosuje %pan% w wyborach, czy wybiera %pan% partie, poniewaz ja lubi, czy dlatego, ze nie lubi %pan% innych partii?
+
+hr=1
+
+[p65s1]
+accept=1:5
+varlab=Glosy sa uczciwie liczone
+
+[p65s2]
+accept=1:5
+varlab=Kandydaci opozycji nie moga startowac w wyborach
+
+[p65s3]
+accept=1:5
+varlab=Glosujacy sa przekupywani
+
+[p65s4]
+accept=1:5
+varlab=Dziennikarze dostarczaja uczciwe informacje na temat wyborow
+
+[p65s5]
+accept=1:5
+varlab=Przedstawiciele komisji wyborczych sa uczciwi
+
+[p65s6]
+accept=1:5
+varlab=Bogaci ludzie kupuja glosy wyborcow
+
+[p65s7]
+accept=1:5
+varlab=Glosujacy doswiadczaja aktow przemocy w punktach wyborczych
+
+[p65s8]
+accept=1:5
+varlab=Glosujacy maja naprawde sposrod kogo wybierac w wyborach
+
+[p65s9]
+accept=1:5
+varlab=Wiadomosci telewizyjne faworyzuja rzadzaca partie
+
+hr=1
+
+page=1
+
+[p66]
+accept=1:5
+varlab=W jakim stopniu, %pana% zdaniem, system polityczny w Polsce pozwala ludziom takim jak %pan% miec wplyw na dzialania rzadu?
+
+hr=1
+
+[p67]
+accept=1:5
+varlab=Na ile jest %pan% pewn%y% swoich mozliwosci uczestniczenia w polityce?
+
+hr=1
+
+[p68]
+accept=1:10
+varlab=Mowiac o polityce ludzie uzywaja okreslen "lewica" i "prawica". W ktorym miejscu na skali, na ktorej 1 oznacza poglady lewicowe, a 10 prawicowe, umiesci%l%by %pan% swoje poglady polityczne?
+
+hr=1
+
+[p69]
+accept=1:10
+varlab=Jak bardzo jest %pan% zadowolon%y% badz niezadowolon%y% ze sposobu, w jaki obecnie dziala system polityczny w Polsce?
+
+hr=1
+
+[p70s1]
+accept=1:4
+varlab=Wolnosc slowa i publikacji
+
+[p70s2]
+accept=1:4
+varlab=Silna ochrona przed wrogami zewnetrznymi i wewnetrznymi
+
+[p70s3]
+accept=1:4
+varlab=Mozliwosc uczestnictwa wszystkich obywateli w polityce
+
+[p70s4]
+accept=1:4
+varlab=Ograniczenia w zakresie publicznych protestow i sprzeciwu politycznego
+
+hr=1
+
+page=1
+
+[p71s1]
+accept=1:4
+varlab=Wladza silnego przywodcy, ktory nie musi liczyc sie z parlamentem i wyborcami
+
+[p71s2]
+accept=1:4
+varlab=Wladza ekspertow z kol pozarzadowych, ktorzy przy podejmowaniu decyzji kieruja sie tym, co jest najlepsze dla kraju
+
+[p71s3]
+accept=1:4
+varlab=Rzady wojskowych
+
+[p71s4]
+accept=1:4
+varlab=Demokratyczny system polityczny
+
+hr=1
+
+[p72s1]
+accept=1:4
+varlab=W czasie krajowego kryzysu prasa powinna wspierac rzad
+
+[p72s2]
+accept=1:4
+varlab=Policja powinna utrzymywac bezpieczenstwo, nawet jesli ogranicza to pokojowe protesty
+
+[p72s3]
+accept=1:4
+varlab=Przywodca naszego kraju powinien od czasu do czasu miec mozliwosc przelamania decyzji parlamentu
+
+hr=1
+
+[p73]
+accept=1:3
+varlab=Ktore z ponizszych stwierdzen najbardziej odpowiada %pana% opinii?
+
+hr=1
+
+page=1
+
+[p74s1]
+accept=1:4
+varlab=Liderzy polityczni powinni podejmowac decyzje wedlug wlasnego najlepszego osadu, a nie woli ludu.
+
+[p74s2]
+accept=1:4
+varlab=Polityki publiczne powinny opierac sie na dowodach naukowych, a nie na preferencjach politycznych.
+
+[p74s3]
+accept=1:4
+varlab=%Ufal%bym opiniom zwyklych ludzi bardziej niz ekspertom.
+
+[p74s4]
+accept=1:4
+varlab=To ludzie, a nie politycy, powinni podejmowac nasze najwazniejsze decyzje.
+
+[p74s5]
+accept=1:4
+varlab=Politycy sa oderwani od zwyklych ludzi.
+
+[p74s6]
+accept=1:4
+varlab=Moj kraj jest podzielony miedzy skorumpowane elity a zwyklych obywateli.
+
+hr=1
+
+[p75s1]
+accept=1:10
+varlab=Nakladanie przez rzad podatkow na bogatych i wspieranie biednych
+
+[p75s2]
+accept=1:10
+varlab=Wplyw autorytetow religijnych na interpretacje prawa
+
+[p75s3]
+accept=1:10
+varlab=Wybor przywodcow politycznych przez ludzi w wolnych wyborach
+
+[p75s4]
+accept=1:10
+varlab=Pomoc od panstwa dla bezrobotnych
+
+[p75s5]
+accept=1:10
+varlab=Przejecie przez wojsko wladzy, jesli rzad jest niekompetentny
+
+[p75s6]
+accept=1:10
+varlab=Ochrona wolnosci ludzi przed opresja panstwa dzieki prawom obywatelskim
+
+[p75s7]
+accept=1:10
+varlab=Wyrownywanie dochodow ludzi przez rzad
+
+[p75s8]
+accept=1:10
+varlab=Posluszenstwo ludzi wobec wladzy
+
+[p75s9]
+accept=1:10
+varlab=Rowne prawa dla kobiet i mezczyzn
+
+hr=1
+
+page=1
+
+[p76]
+accept=1:10
+varlab=Jak wazne jest dla %pana%, zeby kraj, w ktorym %pan% mieszka, byl rzadzony w sposob demokratyczny?
+
+hr=1
+
+[p77]
+accept=1:10
+varlab=A na ile, %pana% zdaniem, Polska jest obecnie rzadzona w sposob demokratyczny?
+
+hr=1
+
+[p78]
+accept=1:4
+varlab=W jakim stopniu, %pana% zdaniem, prawa czlowieka sa w naszym kraju przestrzegane?
+
+hr=1
+
+[p79]
+accept=1:5
+varlab=Czy czuje sie %pan% dumn%y% z tego, ze jest %pan% %polakiem%?
+
+hr=1
+
+[p80s1]
+accept=1:4
+varlab=miejscowoscia, w ktorej %pan% mieszka
+
+[p80s2]
+accept=1:4
+varlab=Polska
+
+[p80s3]
+accept=1:4
+varlab=Europa
+
+[p80s4]
+accept=1:4
+varlab=calym swiatem
+
+hr=1
+
+[p81]
+accept=1:6
+varlab=Ktore z ponizszych okreslen najlepiej opisuje %pana% plec?
+
+hr=1
+
+page=1
+
+[p82a]
+accept=1916:2009
+varlab=W ktorym roku sie %pan% urodzi%l%?
+
+hr=1
+
+[p82b]
+accept=17:110
+varlab=Ile ma %pan% lat?
+
+hr=1
+
+[p83s1]
+text=255
+varlab=Urodzi%lem% sie w:
+
+[p83s2]
+text=255
+varlab=Moj ojciec lub mezczyzna, ktory mnie wychowal, urodzil sie w:
+
+[p83s3]
+text=255
+varlab=Moja matka lub kobieta, ktora mnie wychowala, urodzila sie w:
+
+hr=1
+
+[p84]
+accept=1:99
+varlab=Ile osob mieszka razem z %panem% w %pana% gospodarstwie domowym - wliczajac dzieci i %pana2%?
+
+hr=1
+
+[p85i1]
+accept=0:1
+varlab=Polski
+
+[p85i2]
+accept=0:1
+varlab=Slaski
+
+[p85i3]
+accept=0:1
+varlab=Kaszubski
+
+[p85i4]
+accept=0:1
+varlab=Lemkowski
+
+[p85i5]
+accept=0:1
+varlab=Ukrainski
+
+[p85i6]
+accept=0:1
+varlab=Bialoruski
+
+[p85i7]
+accept=0:1
+varlab=Niemiecki
+
+[p85i8]
+accept=0:1
+varlab=Angielski
+
+[p85i9]
+accept=0:1
+varlab=Czeski
+
+[p85i10]
+accept=0:1
+varlab=Slowacki
+
+[p85i11]
+accept=0:1
+varlab=Ormianski
+
+[p85i12]
+accept=0:1
+varlab=Litewski
+
+[p85i13]
+accept=0:1
+varlab=Tatarski
+
+[p85i14]
+accept=0:1
+varlab=Romski
+
+[p85i15]
+accept=0:1
+varlab=Inny
+
+[p85t1]
+text=255
+varlab=Jaki?
+if=p85i15=1
+
+hr=1
+
+[p86]
+accept=1:6
+varlab=Jaki jest %pana% obecny stan cywilny?
+
+hr=1
+
+[p87]
+accept=0:20
+varlab=Ile mia%l% %pan% dzieci w calym swoim zyciu?
+
+hr=1
+
+[p88]
+accept=1:2
+varlab=Czy jest %pan% glowna osoba utrzymujaca gospodarstwo domowe?
+
+hr=1
+
+page=1
+
+[p89a]
+accept=1:15
+varlab=Prosze wskazac najwyzszy poziom wyksztalcenia osiagniety przez %pana2%. Jesli obecnie sie %pan% uczy, prosze zaznaczyc poziom edukacji, ktory ukonczy%l% %pan% w ostatniej szkole.
+
+[p89b]
+accept=1:15
+varlab=Prosze wskazac najwyzszy poziom wyksztalcenia osiagniety przez %pana% matke.
+
+[p89c]
+accept=1:15
+varlab=Prosze wskazac najwyzszy poziom wyksztalcenia osiagniety przez %pana% ojca.
+
+hr=1
+
+[p90]
+accept=0:100
+varlab=Ile mia%l% %pan% lat, gdy zakonczy%l% %pan% swoja edukacje? Jesli nadal sie %pan% uczy, ile lat bedzie %pan% mia%l%, gdy przewiduje %pan% zakonczenie swojej edukacji?
+
+hr=1
+
+page=1
+
+[p91]
+accept=1:9
+varlab=Czy obecnie %pan% pracuje? Jesli ma %pan% wiecej niz jedna prace, prosze zaznaczyc odpowiedz tylko dla glownej pracy.
+
+[p91i]
+text=255
+varlab=inne (jakie?)
+if=p91=9
+
+hr=1
+
+[p92]
+accept=1:11
+varlab=Do ktorej z ponizszych grup zawodowych %pan% nalezy?
+
+hr=1
+
+[p93]
+accept=1:4
+varlab=Czy zaklad pracy, w ktorym %pan% obecnie pracuje badz w ktorym %pan% pracowa%l% ostatnio, jesli obecnie %pan% nie pracuje, to:
+
+hr=1
+
+[p94]
+accept=1:4
+varlab=Czy w ciagu ostatniego roku %pana% rodzina:
+
+hr=1
+
+[p95]
+accept=1:5
+varlab=Czasami ludzie opisujac siebie wskazuja, ze naleza do klasy pracujacej, klasy sredniej, klasy wyzszej albo nizszej. Do ktorej z tych klas zaliczy%l%by %pan% siebie?
+
+hr=1
+
+page=1
+
+[p96]
+accept=1:10
+varlab=Ponizej znajduje sie skala dochodow, na ktorej 1 oznacza najnizsza grupe dochodowa w Polsce, a 10 najwyzsza. Chcielibysmy wiedziec, do ktorej z tych grup najbardziej pasuja dochody %pana% gospodarstwa domowego?
+
+hr=1
+
+[p97]
+accept=1:8
+varlab=Czy uwaza sie %pan% za osobe zwiazana czy tez niezwiazana z okreslona religia, kosciolem, wyznaniem?
+
+[p97i]
+text=255
+varlab=Inna, jaka?
+if=p97=8
+
+hr=1
+
+[p98i1]
+accept=0:1
+varlab=Polskiej
+
+[p98i2]
+accept=0:1
+varlab=Kaszubskiej
+
+[p98i3]
+accept=0:1
+varlab=Slaskiej
+
+[p98i4]
+accept=0:1
+varlab=Bialoruskiej
+
+[p98i5]
+accept=0:1
+varlab=Ukrainskiej
+
+[p98i6]
+accept=0:1
+varlab=Rosyjskiej
+
+[p98i7]
+accept=0:1
+varlab=Niemieckiej
+
+[p98i8]
+accept=0:1
+varlab=Innej, jakiej?
+
+[p98inne]
+text=255
+varlab=Innej, jakiej?
+if=p98i8=1
+
+hr=1
+
+[datad]
+accept=1:31
+varlab=Prosze wpisac date wypelnienia kwestionariusza, DZIEN
+
+[datam]
+accept=4:6
+varlab=Prosze wpisac date wypelnienia kwestionariusza, MIESIAC
+
+hr=1
+
+[kontakt]
+accept=1:2
+varlab=Czy wyraza %pan% zgode na ponowny kontakt z %panem% w przypadku, gdybysmy w przyszlosci realizowali podobne badanie?
+
+page=1
+
+[uwagi2]
+text=255
+varlab=Uwagi operatora

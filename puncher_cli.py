@@ -21,7 +21,7 @@ APP_DIR = get_app_dir()
 DATA_DIR = APP_DIR / "data"
 DATA_DIR.mkdir(exist_ok=True)
 
-DICT_PATH = DATA_DIR / "questionnaire.txt"
+DICT_PATH = DATA_DIR / "questionnaire.pdi"
 CSV_PATH = DATA_DIR / "responses.csv"
 
 UNIQUE_ID_VAR: str | None = None  # nazwa zmiennej identyfikatora, np. "P0"
@@ -37,7 +37,12 @@ BOX_V = "║"  # pionowa kreska
 
 HR_CHAR = "="  # separator sekcji (hr)
 
-TEXT_PLACEHOLDER_CHAR = "_"
+MISSING_CHAR = "X"
+MISSING_KEY_CHAR = "+"
+ACTIVE_FIELD_MARKER = ">"
+FIELD_OPEN_CHAR = "["
+FIELD_CLOSE_CHAR = "]"
+TEXT_PLACEHOLDER_CHAR = "."
 NUM_PLACEHOLDER_CHAR = "_"
 
 MIN_WIDTH = 80
@@ -101,6 +106,44 @@ def warn_duplicate_id(stdscr, value: str):
 
     stdscr.refresh()
     stdscr.getch()  # czekamy na dowolny klawisz
+
+
+def confirm_force_out_of_range(stdscr, field_name: str, value: str, accept: str) -> bool:
+    """
+    Pyta, czy wymusic zapis wartosci spoza zakresu dla pola numerycznego.
+    """
+    h, w = stdscr.getmaxyx()
+
+    msg2 = f" Pole {field_name}: wartosc '{value}' jest spoza zakresu {accept}. "
+    spcr = " " * len(msg2)
+    msg11 = " WARTOSC SPOZA ZAKRESU ! "
+    msg1 = msg11 + " " * max(0, len(msg2) - len(msg11))
+    msg33 = " Wymusic zapis tej wartosci? (T)ak/(N)ie "
+    msg3 = msg33 + " " * max(0, len(msg2) - len(msg33))
+
+    lines = [spcr, msg1, spcr, msg2, msg3, spcr]
+    max_len = max(len(x) for x in lines)
+    start_y = max(0, h // 2 - len(lines) // 2)
+    start_x = max(0, (w - max_len) // 2)
+
+    for i, line in enumerate(lines):
+        y = start_y + i
+        if 0 <= y < h:
+            text = line[: max(0, w - start_x)]
+            try:
+                stdscr.addstr(y, start_x, text)
+                stdscr.chgat(y, start_x, len(text), curses.A_REVERSE)
+            except curses.error:
+                pass
+
+    stdscr.refresh()
+
+    while True:
+        ch = stdscr.getch()
+        if ch in (ord("y"), ord("Y"), ord("t"), ord("T")):
+            return True
+        if ch in (ord("n"), ord("N"), 27):
+            return False
 
 
 def terminal_too_small(stdscr, min_w=MIN_WIDTH, min_h=MIN_HEIGHT) -> bool:
@@ -265,10 +308,10 @@ def parse_dictionary(path: str) -> List[DictItem]:
             if line.startswith("[") and line.endswith("]"):
                 flush_question()
                 current_name = line[1:-1]
-            elif line == "hr":
+            elif line in ("hr", "hr=1"):
                 flush_question()
                 items.append(DictItem(kind="hr"))
-            elif line == "page":
+            elif line in ("page", "page=1"):
                 flush_question()
                 items.append(DictItem(kind="page"))
             elif "=" in line:
@@ -455,7 +498,7 @@ def numeric_next_state(field: Field, digit: str, current_value: Optional[str] = 
 
 
 def is_numeric_value_valid(field: Field, value: str) -> bool:
-    if value == "-" or value == "":
+    if value == MISSING_CHAR or value == "":
         return True
     if field.allowed_values is None:
         return True
@@ -497,14 +540,14 @@ def build_fields_from_page(
         if item.text_len is not None:
             label_row = row
             input_row = row + 1
-            text_len = min(item.text_len, content_width)
+            text_len = max(1, min(item.text_len, content_width - 4))
             f = Field(
                 name=name,
-                label=f"{name}. {label}",
+                label=f"  {name}. {label}",
                 ftype="text",
                 max_len=text_len,
                 input_row=input_row,
-                input_col=0,
+                input_col=3,
                 label_row=label_row,
                 value=initial_value if active else "",
                 condition=item.condition,
@@ -515,7 +558,7 @@ def build_fields_from_page(
 
         # liczba
         elif item.accept is not None:
-            prefix = f"{name}. "
+            prefix = f"  {name}. {FIELD_OPEN_CHAR}"
             f = Field(
                 name=name,
                 label="",
@@ -529,8 +572,8 @@ def build_fields_from_page(
                 active=active,
             )
             prepare_numeric_field(f, item.accept)
-            placeholder = "-" * f.max_len
-            f.label = f"{prefix}{placeholder} {label}"
+            placeholder = NUM_PLACEHOLDER_CHAR * f.max_len
+            f.label = f"{prefix}{placeholder}{FIELD_CLOSE_CHAR} {label}"
             fields.append(f)
             row += 1
 
@@ -538,14 +581,14 @@ def build_fields_from_page(
         else:
             label_row = row
             input_row = row + 1
-            text_len = content_width
+            text_len = max(1, content_width - 4)
             f = Field(
                 name=name,
-                label=f"{name}. {label}",
+                label=f"  {name}. {label}",
                 ftype="text",
                 max_len=text_len,
                 input_row=input_row,
-                input_col=0,
+                input_col=3,
                 label_row=label_row,
                 value=initial_value if active else "",
                 condition=item.condition,
@@ -574,7 +617,7 @@ def save_answers_to_csv(answers: Dict[str, str], items: List[DictItem], path: st
     """
     Zapis:
       - pytania nieaktywne -> puste pole (brak w answers),
-      - brak danych ('-') -> puste pole (NULL),
+      - brak danych -> puste pole (NULL),
       - normalne odpowiedzi -> wartość jako string.
     """
     var_order = get_question_order(items)
@@ -588,7 +631,7 @@ def save_answers_to_csv(answers: Dict[str, str], items: List[DictItem], path: st
         row: Dict[str, str] = {}
         for var in var_order:
             val = answers.get(var, "")
-            if val == "-":
+            if val == MISSING_CHAR:
                 row[var] = ""  # brak danych jako NULL
             else:
                 row[var] = val
@@ -621,7 +664,7 @@ def draw_header(stdscr, current_page: int, total_pages: int, interview_no: int):
 def draw_footer(stdscr):
     h, w = stdscr.getmaxyx()
     y = h - 1
-    footer = "| ↑/↓ | PgUp/PgDn | ENTER: dalej | minus: brak danych | ctrl+d: wyjście |"
+    footer = f"| ↑/↓ | PgUp/PgDn | ENTER: dalej | {MISSING_KEY_CHAR}: brak danych | ctrl+d: wyjście |"
 
     # Najpierw wypisz tekst (ucięty, jeśli terminal za wąski)
     safe_addstr(stdscr, y, 0, footer)
@@ -660,15 +703,17 @@ def draw_page(
         if f.ftype == "text":
             input_y = content_start_y + (f.input_row - scroll_offset)
             if content_start_y <= input_y <= content_end_y:
-                placeholder = TEXT_PLACEHOLDER_CHAR * max(
-                    1, min(f.max_len, page_width - 1)
-                )
-                safe_addstr(stdscr, input_y, 0, placeholder)
-                display_value = f.value[: f.max_len]
+                field_len = max(1, min(f.max_len, max(1, w - f.input_col - 2)))
+                placeholder = TEXT_PLACEHOLDER_CHAR * field_len
+                safe_addstr(stdscr, input_y, 2, FIELD_OPEN_CHAR)
+                safe_addstr(stdscr, input_y, f.input_col, placeholder)
+                safe_addstr(stdscr, input_y, f.input_col + field_len, FIELD_CLOSE_CHAR)
+                display_value = f.value[:field_len]
                 safe_addstr(stdscr, input_y, f.input_col, display_value)
                 if not f.active:
-                    safe_chgat(stdscr, input_y, 0, f.max_len, curses.A_DIM)
+                    safe_chgat(stdscr, input_y, 2, field_len + 2, curses.A_DIM)
                 elif idx == current_index:
+                    safe_addstr(stdscr, input_y, 0, ACTIVE_FIELD_MARKER)
                     length = max(len(display_value), 1)
                     safe_chgat(stdscr, input_y, f.input_col, length, curses.A_REVERSE)
         else:
@@ -682,6 +727,7 @@ def draw_page(
                 if not f.active:
                     safe_chgat(stdscr, input_y, f.input_col, max_len, curses.A_DIM)
                 elif idx == current_index:
+                    safe_addstr(stdscr, input_y, 0, ACTIVE_FIELD_MARKER)
                     safe_chgat(stdscr, input_y, f.input_col, max_len, curses.A_REVERSE)
 
     # teraz rysujemy poziome linie hr w odpowiednich logicznych wierszach
@@ -730,6 +776,59 @@ def edit_page(stdscr, items, pages_items):
                     return i
                 i -= 1
             return None
+
+        def clear_current_identifier_field():
+            nonlocal cursor_pos
+            current.value = ""
+            answers.pop(current.name, None)
+            cursor_pos = 0
+
+        def current_identifier_is_duplicate() -> bool:
+            if current.name != UNIQUE_ID_VAR:
+                return False
+            val = str(current.value or "").strip()
+            if val and val in USED_IDS:
+                error_beep()
+                warn_duplicate_id(stdscr, val)
+                clear_current_identifier_field()
+                return True
+            return False
+
+        def advance_after_current() -> bool:
+            nonlocal current, current_index, current_page_idx, fields, hr_rows
+            nonlocal scroll_offset, cursor_pos, interview_no
+
+            nxt = find_next_active(current_index)
+            if nxt is not None:
+                current_index = nxt
+                current = fields[current_index]
+                cursor_pos = 0
+                return False
+
+            if current_page_idx < total_pages - 1:
+                current_page_idx += 1
+                _, w_now = stdscr.getmaxyx()
+                fields, hr_rows = build_fields_from_page(
+                    pages_items[current_page_idx], w_now, answers
+                )
+                recompute_field_actives(fields, answers)
+                current_index = 0
+                if fields and not fields[0].active:
+                    nxt2 = find_next_active(-1)
+                    if nxt2 is not None:
+                        current_index = nxt2
+                scroll_offset = 0
+                cursor_pos = 0
+                if fields:
+                    current = fields[current_index]
+                return False
+
+            save_answers_to_csv(answers, items, CSV_PATH)
+            id_val = str(answers.get(UNIQUE_ID_VAR, "")).strip()
+            if id_val:
+                USED_IDS.add(id_val)
+            interview_no += 1
+            return True
 
         # start od pierwszego aktywnego
         current_index = 0
@@ -804,9 +903,12 @@ def edit_page(stdscr, items, pages_items):
 
             input_y = content_start_y + (current.input_row - scroll_offset)
             if 0 <= input_y < h:
+                visible_input_len = max(
+                    1, min(current.max_len, max(1, w - current.input_col - 2))
+                )
                 cursor_x = min(
                     current.input_col + cursor_pos,
-                    current.input_col + current.max_len - 1,
+                    current.input_col + visible_input_len - 1,
                     w - 1,
                 )
                 stdscr.move(input_y, cursor_x)
@@ -941,23 +1043,31 @@ def edit_page(stdscr, items, pages_items):
                             break
                     continue
 
-                if current.value == "":
-                    curses.beep()
+                if current.ftype == "numeric" and current.value == "":
+                    error_beep()
                     continue
                 if current.ftype == "numeric" and not is_numeric_value_valid(
                     current, current.value
                 ):
                     error_beep()
+                    if confirm_force_out_of_range(
+                        stdscr,
+                        current.name,
+                        current.value,
+                        current.accept_str or "",
+                    ):
+                        answers[current.name] = current.value
+                        recompute_field_actives(fields, answers)
+                        if current_identifier_is_duplicate():
+                            continue
+                        if advance_after_current():
+                            break
                     continue
 
                 # sprawdzenie unikalności ID przy opuszczaniu pola
-                if current.name == UNIQUE_ID_VAR:
-                    val = str(current.value or "").strip()
-                    if val and val in USED_IDS:
-                        error_beep()
-                        warn_duplicate_id(stdscr, val)
-                        # NIE opuszczamy pola, użytkownik musi zmienić ID
-                        continue
+                if current_identifier_is_duplicate():
+                    # NIE opuszczamy pola, użytkownik musi zmienić ID
+                    continue
 
                 answers[current.name] = current.value
                 recompute_field_actives(fields, answers)
@@ -1007,18 +1117,45 @@ def edit_page(stdscr, items, pages_items):
             except ValueError:
                 continue
 
-            # brak danych '-'
-            if s == "-":
-                current.value = "-"
+            # brak danych
+            if s == MISSING_KEY_CHAR:
+                current.value = MISSING_CHAR
                 answers[current.name] = current.value
                 recompute_field_actives(fields, answers)
                 cursor_pos = len(current.value)
+
+                nxt = find_next_active(current_index)
+                if nxt is not None:
+                    current_index = nxt
+                    current = fields[current_index]
+                    cursor_pos = 0
+                else:
+                    if current_page_idx < total_pages - 1:
+                        current_page_idx += 1
+                        fields, hr_rows = build_fields_from_page(
+                            pages_items[current_page_idx], w, answers
+                        )
+                        recompute_field_actives(fields, answers)
+                        current_index = 0
+                        if fields and not fields[0].active:
+                            nxt2 = find_next_active(-1)
+                            if nxt2 is not None:
+                                current_index = nxt2
+                        scroll_offset = 0
+                        cursor_pos = 0
+                    else:
+                        save_answers_to_csv(answers, items, CSV_PATH)
+                        id_val = str(answers.get(UNIQUE_ID_VAR, "")).strip()
+                        if id_val:
+                            USED_IDS.add(id_val)
+                        interview_no += 1
+                        break
                 continue
 
             # NUMERIC – auto-skok
             if current.ftype == "numeric":
                 if not s.isdigit():
-                    curses.beep()
+                    error_beep()
                     continue
 
                 if cursor_pos == 0:
@@ -1028,11 +1165,26 @@ def edit_page(stdscr, items, pages_items):
                     curses.beep()
                     continue
 
+                candidate_value = current.value + s
                 new_val, auto_adv, ok = numeric_next_state(
                     current, s, current_value=current.value
                 )
                 if not ok:
                     error_beep()
+                    if confirm_force_out_of_range(
+                        stdscr,
+                        current.name,
+                        candidate_value,
+                        current.accept_str or "",
+                    ):
+                        current.value = candidate_value
+                        answers[current.name] = current.value
+                        cursor_pos = len(current.value)
+                        recompute_field_actives(fields, answers)
+                        if current_identifier_is_duplicate():
+                            continue
+                        if advance_after_current():
+                            break
                     continue
 
                 current.value = new_val
@@ -1040,16 +1192,12 @@ def edit_page(stdscr, items, pages_items):
                 cursor_pos = len(current.value)
                 recompute_field_actives(fields, answers)
 
-                if auto_adv and current.value not in ("", "-"):
+                if auto_adv and current.value not in ("", MISSING_CHAR):
 
                     # jeśli to pole identyfikatora – sprawdź duplikat PRZED auto-skokiem
-                    if current.name == UNIQUE_ID_VAR:
-                        val = str(current.value or "").strip()
-                        if val and val in USED_IDS:
-                            error_beep()
-                            warn_duplicate_id(stdscr, val)
-                            # zostajemy w tym polu, nie przeskakujemy dalej
-                            continue
+                    if current_identifier_is_duplicate():
+                        # zostajemy w tym polu, nie przeskakujemy dalej
+                        continue
 
                     nxt = find_next_active(current_index)
                     if nxt is not None:
