@@ -54,6 +54,14 @@ CONTENT_START_Y = 1  # Treść zaczyna się w wierszu 1, pod jednoliniowym heade
 # ---------- Pomocnicze ----------
 
 
+def count_saved_interviews(csv_path: Path) -> int:
+    """Liczy rekordy CSV bez nagłówka, także przy wielowierszowych odpowiedziach."""
+    if not csv_path.exists():
+        return 0
+    with csv_path.open("r", encoding="utf-8", newline="") as f:
+        return sum(1 for _ in csv.DictReader(f))
+
+
 def load_used_ids(csv_path: Path, id_var: str) -> set[str]:
     """
     Wczytuje wszystkie dotychczas użyte identyfikatory z CSV.
@@ -108,7 +116,9 @@ def warn_duplicate_id(stdscr, value: str):
     stdscr.getch()  # czekamy na dowolny klawisz
 
 
-def confirm_force_out_of_range(stdscr, field_name: str, value: str, accept: str) -> bool:
+def confirm_force_out_of_range(
+    stdscr, field_name: str, value: str, accept: str
+) -> bool:
     """
     Pyta, czy wymusic zapis wartosci spoza zakresu dla pola numerycznego.
     """
@@ -480,6 +490,14 @@ def numeric_next_state(field: Field, digit: str, current_value: Optional[str] = 
     codes = field.code_strings
     matching_codes = {c for c in codes if c.startswith(new_val)}
 
+    # Gdy zwykły kod nie pasuje, dopuść zapis z zerami wiodącymi
+    # w granicach szerokości pola. Nie zmienia to skoków dla zwykłych cyfr.
+    padded_input = False
+    if not matching_codes and new_val.startswith("0"):
+        codes = {c.zfill(field.max_len) for c in field.code_strings if c.isdigit()}
+        matching_codes = {c for c in codes if c.startswith(new_val)}
+        padded_input = True
+
     if not matching_codes:
         return current_value, False, False
 
@@ -494,6 +512,8 @@ def numeric_next_state(field: Field, digit: str, current_value: Optional[str] = 
         if is_full_code and len(new_val) >= max_code_len:
             auto_advance = True
 
+    if padded_input and is_full_code:
+        new_val = str(int(new_val))
     return new_val, auto_advance, True
 
 
@@ -641,11 +661,20 @@ def save_answers_to_csv(answers: Dict[str, str], items: List[DictItem], path: st
 # ---------- Rysowanie ----------
 
 
-def draw_header(stdscr, current_page: int, total_pages: int, interview_no: int):
+def draw_header(
+    stdscr,
+    current_page: int,
+    total_pages: int,
+    interview_no: int,
+    saved_interviews: int,
+):
     h, w = stdscr.getmaxyx()
 
     # Tekst nagłówka
-    left = f"| WYWIAD {interview_no} | STRONA {current_page}/{total_pages} |"
+    left = (
+        f"| W SESJI WYWIAD: {interview_no} | W PLIKU WYWIADÓW: {saved_interviews} |"
+        f" STRONA {current_page}/{total_pages} |"
+    )
     right = f"| PUNCHER_CLI, VER: {VER} |"
 
     # Zbudowanie pełnej linii
@@ -683,6 +712,7 @@ def draw_page(
     current_page: int,
     total_pages: int,
     interview_no: int,
+    saved_interviews: int,
 ):
     stdscr.erase()
     h, w = stdscr.getmaxyx()
@@ -690,7 +720,7 @@ def draw_page(
     content_start_y = CONTENT_START_Y
     content_end_y = h - 2
 
-    draw_header(stdscr, current_page, total_pages, interview_no)
+    draw_header(stdscr, current_page, total_pages, interview_no, saved_interviews)
 
     # najpierw rysujemy pytania
     for idx, f in enumerate(fields):
@@ -750,6 +780,7 @@ def edit_page(stdscr, items, pages_items):
     total_pages = len(pages_items)
 
     interview_no = 1
+    initial_saved_interviews = count_saved_interviews(Path(CSV_PATH))
 
     while True:  # pętla kolejnych ankiet
         answers: Dict[str, str] = {}
@@ -899,6 +930,7 @@ def edit_page(stdscr, items, pages_items):
                 current_page=current_page_idx + 1,
                 total_pages=total_pages,
                 interview_no=interview_no,
+                saved_interviews=initial_saved_interviews + interview_no - 1,
             )
 
             input_y = content_start_y + (current.input_row - scroll_offset)

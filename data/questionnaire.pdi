@@ -2,32 +2,23 @@
 varlab=Numer ze stempla
 accept=1:999
 
-hr
-
 [sampleID]
 text=20
 varlab=Kod z naklejki
 mis=0
-
-hr
 
 [operator]
 text=5
 varlab=Identyfikator osoby wpisujacej
 mis=0
 
-hr
-
 [qsex]
 accept=1:2
 varlab=Plec z wersji kwestionariusza 1=K 2=M
 mis=0
 
-hr
-
 [uwagi]
 text=255
-varlab=Dopiski
 
 page=1
 
@@ -590,19 +581,19 @@ hr=1
 page=1
 
 [p28s1]
-accept=1:2
+accept=1:4
 varlab=Utrzymanie porządku w społeczeństwie
 
 [p28s2]
-accept=1:2
+accept=1:4
 varlab=Stworzenie ludziom większych możliwości wpływania na decyzje władz
 
 [p28s3]
-accept=1:2
+accept=1:4
 varlab=Przeciwdziałanie wzrostowi cen
 
 [p28s4]
-accept=1:2
+accept=1:4
 varlab=Stworzenie szerszych możliwości swobodnego wypowiadania poglądów
 
 hr=1
@@ -1594,7 +1585,7 @@ accept=1:31
 varlab=Prosze wpisac date wypelnienia kwestionariusza, DZIEN
 
 [datam]
-accept=4:6
+accept=5:9
 varlab=Prosze wpisac date wypelnienia kwestionariusza, MIESIAC
 
 hr=1
@@ -1602,9 +1593,3 @@ hr=1
 [kontakt]
 accept=1:2
 varlab=Czy wyraza %pan% zgode na ponowny kontakt z %panem% w przypadku, gdybysmy w przyszlosci realizowali podobne badanie?
-
-page=1
-
-[uwagi2]
-text=255
-varlab=Uwagi operatora

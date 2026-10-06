@@ -175,8 +175,8 @@ Output binaries appear in `dist/`.
 ---
 
 ## 🧪 Development notes
-- The entire application logic and UI are in puncher_cli.py.
-- questionnaire.txt can be modified without touching code.
+- The entire application logic and UI are in `puncher_cli.py`.
+- `questionnaire.pdi` can be modified without touching code.
 - New conditions, pages or HR separators take effect immediately.
 - CSV output is append-only and safe to ship to remote operators.
 
